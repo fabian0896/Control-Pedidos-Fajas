@@ -1,0 +1,109 @@
+<h4>Busqueda de Pedidos</h4>
+<hr>
+<!-- CAJA DE TEXTO -->
+<div class="row">
+  <div class="input-field col s12">
+    <i class="material-icons prefix">search</i>  
+    <input (keyup)="buscar()" name="query" [(ngModel)]="query" placeholder="Busqueda" id="first_name" type="text">
+    <label class="active" for="Busqueda">Busqueda</label>
+  </div>
+</div>
+
+<!-- MOSTRAR PEDIDOS -->
+
+<app-pedido *ngFor="let pedido of pedidos; let i = index" [pedido]="pedido" (onDetalles)="verDetalles(i, $event)"></app-pedido>
+<h4 *ngIf="pedidos?.length == 0 && query != ''" class="center-align" >No hay resultados :(</h4>
+
+<!-- MODAL 1 -->
+
+<div id="modal1" class="modal modal-fixed-footer">
+  <div *ngIf="pedidoTemporal">
+      <div class="modal-content">
+          <h4>{{ pedidoTemporal.nombre }}</h4>
+          <hr>
+          <div class="row">
+              <div class="col s6">
+                  <p>
+                      <strong>Telefono: </strong>
+                      <br> {{ pedidoTemporal.telefono }}</p>
+                  <p>
+                      <strong>Ciudad: </strong>
+                      <br> {{ pedidoTemporal.ciudad }}</p>
+                  <p>
+                      <strong>Dirección: </strong>
+                      <br> {{ pedidoTemporal.direccion }}</p>
+                  <p>
+                      <strong>Valor Total: </strong>
+                      <br> {{ pedidoTemporal.valorTotal | currency:'COP':'symbol-narrow':'.0-0' }}</p>
+                  <p>
+                      <strong>Fecha Venta: </strong>
+                      <br> {{ pedidoTemporal.fechaVenta | date: 'dd/MM/yyyy' }}</p>
+                  <p *ngIf="pedidoTemporal.fechaDespacho">
+                      <strong>Fecha Despacho: </strong>
+                      <br> {{ pedidoTemporal.fechaDespacho | date: 'dd/MM/yyyy' }}</p>
+              </div>
+              <div class="col s6">
+                  <p>
+                      <strong> {{ pedidoTemporal.medioVenta}} </strong>
+                      <br> {{ pedidoTemporal.observaciones }}</p>
+                  <p>
+                      <strong>Medio de Pago: </strong>
+                      <br> {{ pedidoTemporal.medioPago }}</p>
+                  <p>
+                      <strong>Estado del Pedido: </strong>
+                      <br> {{ estadoPedidoTemporal }}</p>
+                  <p>
+                      <strong>Vendedor: </strong>
+                      <br> {{ nombreVendedorTemporal }}</p>
+                  <p *ngIf="pedidoTemporal.guia">
+                      <strong>Guia: </strong>
+                      <br> {{ pedidoTemporal.guia }}</p>
+                  <p *ngIf="pedidoTemporal.factura">
+                      <strong>Factura N°: </strong>
+                      <br> {{ pedidoTemporal.factura }}</p>    
+              </div>
+          </div>
+
+          <hr>
+          <h6>Total de prendas:
+              <small>{{ totalPrendasTemporal }}</small>
+          </h6>
+
+          <app-lista-prendas [pedido]="pedidoTemporal"></app-lista-prendas>
+
+      </div>
+      <div class="modal-footer">
+        <a (click)="cambiarEstadoPedido(4)" *ngIf="pedidoTemporal.estado == 3" class="waves-effect waves-green btn-flat green-text">Empacado</a>
+        <a (click)="cambiarEstadoPedido(5)" *ngIf="pedidoTemporal.estado == 4" class="modal-close waves-effect waves-green btn-flat green-text">Despachado</a>
+        <a (click)="cambiarEstadoPedido(6)" *ngIf="pedidoTemporal.estado == 5" class="modal-close waves-effect waves-red btn-flat red-text">Devolucion</a>
+        <a (click)="cambiarEstadoPedido(4)" *ngIf="pedidoTemporal.estado >= 5" class="modal-close waves-effect waves-green btn-flat">Cambiar estado</a>
+        <a class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 2 -->
+
+<div id="modal2" class="modal">
+  <div *ngIf="pedidoTemporal">
+      <div class="modal-content">
+          <h4>{{ pedidoTemporal.nombre }}</h4>
+          <hr>
+          <h6>Ingresa el numero de Guia del paquete:</h6>
+          <div class="row">
+              <div class="input-field col s6" style="margin-top : 30px ">
+                  <input name="guiaTemporal" [(ngModel)]="guiaTemporal" placeholder="Guia" id="first_name" type="text" class="validate">
+                  <label class="active" for="first_name">Guia</label>
+              </div>
+          </div>
+
+      </div>
+      <div class="modal-footer">
+          <a (click)="agregarGuia()" *ngIf="guiaTemporal.length > 0" class="modal-close waves-effect waves-green btn-flat green-text">Guardar</a>
+          <a class="modal-close waves-effect waves-green btn-flat modal-trigger" href="#modal1">Cancelar</a>
+      </div>
+  </div>
+
+
+</div>
+

@@ -1,0 +1,55 @@
+<nav>
+  <div class="nav-wrapper grey darken-2">
+    
+    <div class="container">
+      <a [routerLink]="['/home']" class="flow-text brand-logo center">Fajas</a>
+      <a *ngIf="usuario" href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    <ul id="nav-mobile" class="left hide-on-med-and-down">
+      <li><a *ngIf="usuario" (click)="abrirMenu()" data-target="slide-out"><i class="material-icons">menu</i></a></li>
+    </ul>
+    </div> 
+  </div>
+</nav>
+
+<ul class="sidenav" id="slide-out">
+    <li><div class="user-view">
+        <div class="background">
+          <img src="../../../assets/fondo.jpg">
+        </div>
+        <a *ngIf="usuario" ><img class="circle responsive-img" [src]="usuario.photoURL"></a>
+        <a *ngIf="usuario" ><span class="white-text name">{{ usuario.displayName }}</span></a>
+        <a *ngIf="usuario"><span class="white-text email">{{ usuario.email }}</span></a>
+        <a *ngIf="usuario"><span class="white-text email">{{ cargo | async }}</span></a>
+      </div></li>
+  
+      <li class="sidenav-close"><a [routerLink]="['/home']"><i class="material-icons">home</i>Inicio</a></li>
+      <li class="sidenav-close"><a [routerLink]="['/prendas']"><i class="material-icons">accessibility</i>Prendas</a></li>
+      <li *ngIf="(permiso | async) >= 2" class="sidenav-close"><a [routerLink]="['/facturas']"><i class="material-icons">local_grocery_store</i>Facturas<span *ngIf="facturasP" class="new badge blue" data-badge-caption="">{{ facturasP }}</span></a></li>
+      <li *ngIf="(permiso | async) >= 3" class="sidenav-close"><a [routerLink]="['/guias']"><i class="material-icons">local_airport</i>Guias<span *ngIf="guiasP" class="new badge blue" data-badge-caption="">{{ guiasP }}</span></a></li>
+      <li class="sidenav-close"><a [routerLink]="['/prendaspendientes']"><i class="material-icons">view_list</i>Prendas Pen<span *ngIf="prendasP" class="new badge blue" data-badge-caption="">{{ prendasP }}</span></a></li>
+      <li class="sidenav-close"><a [routerLink]="['/busqueda']"><i class="material-icons">search</i>Busqueda</a></li>
+
+      <li class="no-padding">
+      <ul class="collapsible collapsible-accordion">
+        <li>
+          <a class="collapsible-header">Pedidos<i class="material-icons">arrow_drop_down</i></a>
+          <div class="collapsible-body">
+            <ul>
+              <li *ngIf="(permiso | async) >= 3" ><a class="sidenav-close" [routerLink]="['/mispedidos']"><span>Mis Pedidos<span *ngIf="pedidosP" class="new badge blue" data-badge-caption="">{{ pedidosP }}</span></span></a></li>
+              <li><a class="sidenav-close" [routerLink]="['/pedidos']"><span>Todos Los Pedidos</span></a></li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </li>
+
+  
+
+  
+  <li><div class="divider"></div></li>
+  <li class="sidenav-close"><a [routerLink]="['/config']"><i class="material-icons">build</i>Configuracion</a></li>
+  <li class="sidenav-close"><a (click)="salir()"><i class="material-icons">settings_power</i>Salir</a></li>
+
+  
+
+</ul>

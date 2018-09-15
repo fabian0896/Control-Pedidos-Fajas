@@ -1,0 +1,38 @@
+<h4>Prendas Pendientes</h4>
+<hr>
+
+<div class="row">
+    <div  style="margin-bottom: 10px">
+        <ul class="tabs teal-text z-depth-1 ">
+            <li [class.disabled]="(permiso | async) < 3" class="tab col s6">
+                <a href="#misprendas">Mis Prendas</a>
+            </li>
+            <li class="tab col s6">
+                <a href="#todas">Todas</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+    <!-- CONTENIDO -->
+
+    <div id="misprendas">
+        <div  *ngFor="let pedido of misPedidos" >
+            <h5>{{ pedido.nombre }}</h5>  
+              <app-lista-prendas [pedido]="pedido" ></app-lista-prendas>
+              <div class="divider" ></div>
+        </div>
+
+    </div>
+    <div id="todas">
+        <div  *ngFor="let pedido of pedidos" >
+            <h5>{{ pedido.nombre }}</h5>  
+              <app-lista-prendas [pedido]="pedido" [editable]="(permiso | async) >= 3" ></app-lista-prendas>
+              <div class="divider" ></div>
+        </div>
+    </div>
+
+
+
+
+

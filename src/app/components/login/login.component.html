@@ -1,0 +1,68 @@
+<div class="valign-wrapper"  style="height: 90vh;" >
+  
+
+ 
+
+  <div class="row">
+    <div class="col s12 ">
+
+        <div class="card-panel blue-grey lighten-5" >
+            <div class="row">
+              <div class="col s12">
+                  <h4>Ingresa Con Tu Cuenta</h4>
+              </div>
+            </div>
+            
+          
+            <form (submit)="ingresar()">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input  [(ngModel)]="correo" name="correo" type="email" class="validate">
+                        <label for="last_name">Correo Electronico</label>
+                      </div>
+                </div>
+                
+                
+                
+                <div class="row">
+                      <div class="input-field col s12">
+                          <input  [(ngModel)]="password" name="password" type="password" class="validate">
+                          <label for="password">Contraseña</label>
+                        </div>
+                </div>
+
+                <div *ngIf="registro" class="row">
+                    <div class="input-field col s6">
+                        <input  [(ngModel)]="nombre" name="nombre" type="text" class="validate">
+                        <label for="last_name">Nombre Completo</label>
+                      </div>
+                      <div class="input-field col s6">
+                        <input autocomplete="off"  [(ngModel)]="codigo" name="codigo" type="text" class="validate">
+                        <label for="codigo">Codigo de registro</label>
+                      </div>
+                </div>
+
+                <div *ngIf="registro" class="row">
+                    
+                </div>
+      
+      
+                <div  class="row">
+                  <div *ngIf="!registro" class="col s6 center-align">
+                      <button type="submit" class="waves-effect waves-light btn" >Ingresar</button>
+                  </div>
+                  <div class="col s6 center-align" [ngClass]="{ 'col s12': registro, 'col s6': !registro }" >
+                      <button (click)="registrar()" type="button" class="waves-effect waves-light btn" >Registrarse</button>
+                  </div>
+                </div>
+      
+    
+            </form>
+                    
+        </div>
+
+    </div>
+  </div>
+  
+  
+</div>

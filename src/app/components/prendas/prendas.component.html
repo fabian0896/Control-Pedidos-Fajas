@@ -1,0 +1,91 @@
+
+<div *ngIf="(permiso | async) >= 3" class="fixed-action-btn">
+    <a href="#modal1" class="btn-floating btn-large waves-effect waves-light modal-trigger">
+      <i  class="large material-icons">add</i>
+    </a> 
+</div>
+
+<div id="modal1" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <h4>Agregar Prenda</h4>
+      <p>Completa el formulario para añadir una prenda</p>
+      <div class="row" [formGroup]="formulario">
+          <div class="input-field col s12">
+              <input formControlName="nombre"  name="nombre"  type="text" class="validate">
+              <label class="active" for="nombre">Nombre</label>
+          </div>
+          
+          <div class="input-field col s12">
+              <input formControlName="sku"  name="referencia"  type="text" class="validate">
+              <label class="active" for="referenica">referencia</label>
+          </div>
+          
+          <div *ngIf="!editando" class="file-field input-field col s12">
+              <div class="btn">
+                <span>File</span>
+                <input formControlName="archivo" (change)="getArchivo($event)" type="file">
+              </div>
+              <div class="file-path-wrapper">
+                <input  name="ruta"  class="file-path validate"  type="text">
+              </div>
+          </div> 
+          <div *ngIf="vistaPrevia" class="col s12 center-align">
+            <img style="width: 150px" [src]="vistaPrevia" alt="">
+          </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a (click)="cancelar()" class="modal-close waves-effect waves-green btn-flat red-text ">Cancelar</a>
+      <a *ngIf="!editando" (click)="comprobaciones()" [class.disabled]="!formulario.valid" class="waves-effect waves-green btn-flat green-text">Guardar</a>
+      <a *ngIf="editando" (click)="guardarEditar()" class="waves-effect waves-green btn-flat green-text">Editar</a>
+    </div>
+  </div>
+
+
+
+
+<div class="row valign-wrapper">
+  <div class="col">
+    <h2 class="header">Prendas</h2>
+    
+  </div>
+  <div class="col s3" *ngIf="cargando" >
+    <div class="preloader-wrapper big active">
+      <div class="spinner-layer spinner-blue-only">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+
+<table class="striped centered">
+    <thead>
+      <tr>
+          <th>Imagen</th>
+          <th>Nombre</th>
+          <th>Referencia</th>
+          <th *ngIf="(permiso | async) >= 3" >Opt</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let prenda of prendas | async" >
+        <td><img [src]="prenda.imagen" style="height: 150px;" ></td>
+        <td><h6>{{ prenda.nombre }}</h6></td>
+        <td><h6>{{ prenda.sku }}</h6></td>
+        <td *ngIf="(permiso | async) >= 3">
+          <div class="row center-align"><i (click)="openEditar(prenda)" class="material-icons">edit</i></div>
+          <div class="row center-align"><i (click)="borrarPrenda(prenda)" class="material-icons">delete</i></div>         
+        </td>
+      </tr>
+    </tbody>
+</table>  

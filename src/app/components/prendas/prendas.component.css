@@ -1,0 +1,9 @@
+/* .ng-invalid {
+     border-bottom: 1px solid red;
+     box-shadow: 0 1px 0 0 #000;
+   } */
+
+   .input-field input[type=text].ng-invalid.ng-dirty{
+      border-bottom: 1px solid red;
+     box-shadow: 0 1px 0 0 #000;
+   }

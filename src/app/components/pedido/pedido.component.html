@@ -1,0 +1,38 @@
+<div *ngIf="pedido">
+
+  
+
+                <div class="card" [ngClass]="[ color ]">
+                        <div class="card-content">
+                          <div class="row">
+                            <div class="col s12 m8 ">
+                                <span class="card-title"><strong>{{ pedido.nombre }}</strong></span>
+                            </div>
+                            <div class="col s12 m4 right-align"> 
+                                <p>{{ pedido.fechaVenta | date: 'dd/MM/yyyy' }} <br><strong>{{ estadoPedido }}</strong></p>   
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col s6">
+                                <p><strong>Telefono: </strong><br> {{ pedido.telefono }}</p>
+                                <p><strong>Ciudad: </strong><br> {{ pedido.ciudad }} </p>
+                            </div>
+                            <div class="col s6">
+                                <p><strong>Valor Total: </strong><br> {{ pedido.valorTotal | currency:'COP':'symbol-narrow':'.0-0' }} </p>
+                                <p><strong>Dirección: </strong><br> {{ pedido.direccion }} </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-action">
+                          <strong style="cursor: pointer;"><a class="black-text" (click)="verDetalles()"><i class="material-icons">more_vert</i></a></strong> 
+                          <strong *ngIf="editable && !(pedido.estado >= 5)" style="cursor: pointer;"><a  class="black-text" [routerLink]="['/detalles', pedido.id]" ><i class="material-icons">edit</i></a></strong> 
+                        </div>
+                      </div>
+                     
+       
+    </div>
+
+    
+  
+
+

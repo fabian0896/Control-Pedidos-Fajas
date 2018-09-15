@@ -1,0 +1,136 @@
+<!-- FAB -->
+
+<div *ngIf="(permiso | async) >= 3" class="fixed-action-btn">
+    <a (click)="crearPedido()" class="btn-floating btn-large waves-effect waves-light">
+        <i class="large material-icons">add</i>
+    </a>
+</div>
+
+<h4>Todos Los Pedidos</h4>
+<hr>
+<!--  TABS -->
+
+<div class="row">
+    <div class="col s12" style="margin-bottom: 10px">
+        <ul class="tabs teal-text z-depth-1 ">
+            <li class="tab col s4">
+                <a href="#pendientes">Pendientes</a>
+            </li>
+            <li class="tab col s4">
+                <a href="#todos">Todos</a>
+            </li>
+            <li class="tab col s4">
+                <a href="#completados">Completados</a>
+            </li>
+            
+        </ul>
+    </div>
+
+    <!-- CONTENIDO -->
+
+    <div id="todos" class="col s12">
+        <app-pedido *ngFor="let pedido of pedidos; let i = index" [editable]="(permiso | async) >= 3" [pedido]="pedido" (onDetalles)="verDetalles(i, $event)"></app-pedido>
+        <div *ngIf="mostrarVerMasTodos" class="center-align" ><a  style="cursor: pointer;" (click)="mostrarMasTodos()" >Mostrar mas...</a></div>
+        <h4 *ngIf="pedidos?.length == 0" class="center-align" >No hay pedidos</h4>
+    </div>
+    <div id="pendientes" class="col s12">
+        <app-pedido *ngFor="let pedido of pedidosPendientes; let i = index" [editable]="(permiso | async) >= 3" [pedido]="pedido" (onDetalles)="verDetalles(i, $event)"></app-pedido>
+        <h4 *ngIf="pedidosPendientes?.length == 0" class="center-align" >No hay pedidos pendientes :)</h4>
+    </div>
+    <div id="completados" class="col s12">
+        <app-pedido *ngFor="let pedido of pedidosCompletados; let i = index" [editable]="(permiso | async) >= 3" [pedido]="pedido" (onDetalles)="verDetalles(i, $event)"></app-pedido>
+        <div *ngIf="mostrarVerMasCompletados" class="center-align" ><a  style="cursor: pointer;" (click)="mostrarCompletados()" >Mostrar mas...</a></div>
+    </div>
+    
+</div>
+
+<!-- MODLA -->
+
+<div id="modal1" class="modal modal-fixed-footer">
+    <div *ngIf="pedidoTemporal">
+        <div class="modal-content">
+            <h4>{{ pedidoTemporal.nombre }}</h4>
+            <hr>
+            <div class="row">
+                <div class="col s6">
+                    <p>
+                        <strong>Telefono: </strong>
+                        <br> {{ pedidoTemporal.telefono }}</p>
+                    <p>
+                        <strong>Ciudad: </strong>
+                        <br> {{ pedidoTemporal.ciudad }}</p>
+                    <p>
+                        <strong>Dirección: </strong>
+                        <br> {{ pedidoTemporal.direccion }}</p>
+                    <p>
+                        <strong>Valor Total: </strong>
+                        <br> {{ pedidoTemporal.valorTotal | currency:'COP':'symbol-narrow':'.0-0' }}</p>
+                    <p>
+                        <strong>Fecha Venta: </strong>
+                        <br> {{ pedidoTemporal.fechaVenta | date: 'dd/MM/yyyy' }}</p>
+                    <p *ngIf="pedidoTemporal.fechaDespacho">
+                        <strong>Fecha Despacho: </strong>
+                        <br> {{ pedidoTemporal.fechaDespacho | date: 'dd/MM/yyyy' }}</p>
+                </div>
+                <div class="col s6">
+                    <p>
+                        <strong> {{ pedidoTemporal.medioVenta}} </strong>
+                        <br> {{ pedidoTemporal.observaciones }}</p>
+                    <p>
+                        <strong>Medio de Pago: </strong>
+                        <br> {{ pedidoTemporal.medioPago }}</p>
+                    <p>
+                        <strong>Estado del Pedido: </strong>
+                        <br> {{ estadoPedidoTemporal }}</p>
+                    <p>
+                        <strong>Vendedor: </strong>
+                        <br> {{ nombreVendedorTemporal }}</p>
+                    <p *ngIf="pedidoTemporal.guia">
+                        <strong>Guia: </strong>
+                        <br> {{ pedidoTemporal.guia }}</p>
+                    <p *ngIf="pedidoTemporal.factura">
+                        <strong>Factura N°: </strong>
+                        <br> {{ pedidoTemporal.factura }}</p>    
+                </div>
+            </div>
+
+            <hr>
+            <h6>Total de prendas:
+                <small>{{ totalPrendasTemporal }}</small>
+            </h6>
+
+            <app-lista-prendas [editable]="(permiso | async) >= 3" [pedido]="pedidoTemporal"></app-lista-prendas>
+
+        </div>
+        <div class="modal-footer">
+            <a (click)="cambiarEstadoPedido(4)" *ngIf="pedidoTemporal.estado == 3" class="waves-effect waves-green btn-flat green-text">Empacado</a>
+            <a (click)="cambiarEstadoPedido(5)" *ngIf="pedidoTemporal.estado == 4" class="modal-close waves-effect waves-green btn-flat green-text">Despachado</a>
+            <a (click)="cambiarEstadoPedido(6)" *ngIf="pedidoTemporal.estado == 5" class="modal-close waves-effect waves-red btn-flat red-text">Devolucion</a>
+            <a (click)="cambiarEstadoPedido(4)" *ngIf="pedidoTemporal.estado >= 5" class="modal-close waves-effect waves-green btn-flat">Cambiar estado</a>
+            <a class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+        </div>
+    </div>
+</div>
+<!-- MODAL 2 -->
+<div id="modal2" class="modal">
+    <div *ngIf="pedidoTemporal">
+        <div class="modal-content">
+            <h4>{{ pedidoTemporal.nombre }}</h4>
+            <hr>
+            <h6>Ingresa el numero de Guia del paquete:</h6>
+            <div class="row">
+                <div class="input-field col s6" style="margin-top : 30px ">
+                    <input name="guiaTemporal" [(ngModel)]="guiaTemporal" placeholder="Guia" id="first_name" type="text" class="validate">
+                    <label class="active" for="first_name">Guia</label>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <a (click)="agregarGuia()" *ngIf="guiaTemporal.length > 0" href="#modal1" class="modal-close modal-trigger waves-effect waves-green btn-flat green-text">Guardar</a>
+            <a class="modal-close waves-effect waves-green btn-flat modal-trigger" href="#modal1">Cancelar</a>
+        </div>
+    </div>
+
+
+</div>

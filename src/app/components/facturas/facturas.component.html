@@ -1,0 +1,68 @@
+<div id="modal1" class="modal">
+    <div *ngIf="pedidoTemporal">
+          <div class="modal-content">
+              <h4>{{ pedidoTemporal.nombre }}</h4>
+              <span>Ingrese numero de Factura:</span>
+                  <div class="input-field inline">
+                      <input name="numeroFactura" [(ngModel)]="numeroFactura" placeholder="Numero de Factura" minlength="1" type="text" class="validate active">
+                      
+                  </div> 
+            </div>
+            
+            <div class="modal-footer">
+              <button class="modal-close waves-effect waves-green btn-flat ">Cancelar</button>
+              <button (click)="guardarFactura()" [disabled]="!numeroFactura" class="modal-close waves-effect waves-green btn-flat green-text">Guardar</button>
+            </div>
+          </div> 
+  </div>
+ 
+
+<h4>Facturas Pendientes</h4>
+<hr>
+
+<div class="card" *ngFor="let pedido of pedidos">
+    <div class="card-content">
+      <div class="row">
+        <div class="col s12 m8">
+          <span class="card-title"><strong>{{ pedido.nombre}}</strong></span>
+        </div>
+        <div class="col s12 m4">
+          <span class="card-title" ><strong>Total:</strong> {{ pedido.valorTotal | currency:'COP':'symbol-narrow':'.0-0'}} </span>
+        </div>
+      </div>
+      
+      
+      
+      <table class="centered striped">
+          <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Ref</th>
+                <th>Cantidad</th>
+                <th>Valor</th>
+                <th>Sub Total</th>
+            </tr>
+          </thead>
+  
+          <tbody>
+            
+            <tr *ngFor="let prenda of pedido.prendas">
+              <td>{{ prenda.nombre }}</td>
+              <td>{{ prenda.sku }}</td>
+              <td>{{ prenda.cantidad }}</td>
+              <td>{{ prenda.valor | currency:'COP':'symbol-narrow':'.0-0' }}</td>
+              <td>{{ (prenda.valor * prenda.cantidad) | currency:'COP':'symbol-narrow':'.0-0' }}</td>
+            </tr>
+             
+            
+          </tbody>
+        </table>
+
+
+    </div>
+    <div class="card-action">
+      <a (click)="abrirModal(pedido)">Agregar Factura</a>
+    </div>
+</div>
+
+<h4 class="center-aling" *ngIf="pedidos?.length == 0" >No hay facturas pendientes :)</h4>
