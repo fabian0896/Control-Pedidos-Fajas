@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { switchMap, map, tap, shareReplay } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
@@ -18,19 +18,27 @@ export class PermisosService {
     })).pipe(tap(()=>{
       console.log("consulta");
     }),shareReplay(1),map((data:any) =>{
-      let numero: number = 0;
-      if(data[0].cargo == 'administrador'){
+      return this.determinarCargo(data[0].cargo);
+    }));
+  }
+
+
+
+  determinarCargo(cargo:string){
+    let numero: number = 0;
+      if(cargo == 'administrador'){
         numero = 4;
-      } else if(data[0].cargo == 'vendedor'){
+      } else if(cargo == 'vendedor'){
         numero = 3;
-      } else if(data[0].cargo == 'facturacion'){
+      } else if(cargo == 'facturacion'){
         numero = 2;
-      } else if(data[0].cargo == 'observador'){
+      } else if(cargo == 'observador'){
         numero = 1;
       }
       return numero;
-    }));
   }
+
+
 
 
 }
