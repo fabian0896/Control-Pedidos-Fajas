@@ -9,7 +9,11 @@ import { EstadistcasService } from '../../services/estadistcas.service';
 export class HomeComponent implements OnInit {
 
   constructor(private estadisticas:EstadistcasService) {
-      this.estadisticas.getEstadisticasSemana(new Date(2018, 2, 2)).subscribe(data=>{
+      this.estadisticas.getEstadisticasSemana(new Date()).subscribe(data=>{
+        console.log(data);
+      });
+
+      this.estadisticas.getEstadisticasMeses(new Date()).subscribe(data => {
         console.log(data);
       });
    }

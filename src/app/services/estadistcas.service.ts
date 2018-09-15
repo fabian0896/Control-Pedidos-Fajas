@@ -80,7 +80,7 @@ export class EstadistcasService {
 
 
 
-      } else if(resultados.length == 0) {
+      } else if(resultados.length == 1) {
         for(let i = (dia-4); i <= dia; i++ ){
           if(resultados[0][i]){
             temp.push(resultados[0][i]);
@@ -97,6 +97,81 @@ export class EstadistcasService {
     }));
 
   }
+
+
+
+
+  getEstadisticasMeses(fecha:Date){
+    let obs:Observable<any>[] = [];
+    let meses:any[] = [];
+
+    if(fecha.getMonth() >= 2){
+      obs[2] = this.db.collection('estadisticas').doc(`${ fecha.getFullYear() }-${ fecha.getMonth() + 1 }`).valueChanges();
+      obs[1] = this.db.collection('estadisticas').doc(`${ fecha.getFullYear() }-${ fecha.getMonth() + 0 }`).valueChanges();
+      obs[0] = this.db.collection('estadisticas').doc(`${ fecha.getFullYear() }-${ fecha.getMonth() - 1 }`).valueChanges();
+      meses.push(fecha.getMonth() - 1);
+      meses.push(fecha.getMonth() - 0);
+      meses.push(fecha.getMonth() + 1);
+    }
+    else{
+      let diferencia = 2 - fecha.getMonth();
+      console.log("entre al else")
+      if(diferencia == 1){
+        obs[0] = this.db.collection('estadisticas').doc(`${ fecha.getFullYear() - 1  }-${ 12 }`).valueChanges(); 
+        obs[1] = this.db.collection('estadisticas').doc(`${ fecha.getFullYear()  }-${ 1 }`).valueChanges(); 
+        obs[2] = this.db.collection('estadisticas').doc(`${ fecha.getFullYear()  }-${ 2 }`).valueChanges();
+        meses.push(12);
+        meses.push(1);
+        meses.push(2); 
+      } else if(diferencia == 2){
+        obs[0] = this.db.collection('estadisticas').doc(`${ fecha.getFullYear() - 1  }-${ 11 }`).valueChanges(); 
+        obs[1] = this.db.collection('estadisticas').doc(`${ fecha.getFullYear() - 1  }-${ 12 }`).valueChanges(); 
+        obs[2] = this.db.collection('estadisticas').doc(`${ fecha.getFullYear() }-${ 1 }`).valueChanges(); 
+        meses.push(11);
+        meses.push(12);
+        meses.push(1); 
+      }
+      
+
+    }
+
+
+    return combineLatest(obs).pipe(map(respuesta =>{
+      
+      let resultado:any[] = [];
+      let temp_ventas:number = 0;
+      let temp_devoluciones:number = 0;
+      
+
+      for(let mes of respuesta){
+        temp_devoluciones = 0;
+        temp_ventas = 0;
+        if(mes){
+          for(let i=0; i < 32 ; i++){
+            if(mes[i]){
+              temp_ventas += mes[i].ventas;
+              temp_devoluciones += mes[i].devoluciones;
+            }
+          }
+        }
+        resultado.push({ventas: temp_ventas, devoluciones: temp_devoluciones});
+      }
+
+      return {datos: resultado, meses: meses}
+    }));
+    
+
+
+
+
+  }
+
+
+
+
+
+
+
 
 
 
