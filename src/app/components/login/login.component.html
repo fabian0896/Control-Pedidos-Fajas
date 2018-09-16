@@ -51,9 +51,13 @@
                   <div *ngIf="!registro" class="col s6 center-align">
                       <button type="submit" class="waves-effect waves-light btn" >Ingresar</button>
                   </div>
+                  <div *ngIf="registro" class="col s6 center-align">
+                        <button *ngIf="registro" (click)="cancelar()" type="button" class="waves-effect waves-light btn-flat red-text" >Cancelar</button>
+                    </div>
                   <div class="col s6 center-align" [ngClass]="{ 'col s12': registro, 'col s6': !registro }" >
-                      <button (click)="registrar()" type="button" class="waves-effect waves-light btn" >Registrarse</button>
+                      <button (click)="registrar()" type="button" [class.btn-flat]="!registro" [class.btn]="registro" class="waves-effect waves-light" >Registrarse</button>
                   </div>
+                  
                 </div>
       
     

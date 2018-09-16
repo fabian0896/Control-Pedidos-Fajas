@@ -1,33 +1,53 @@
 <h3>Bienvenido <small>Fabian David Dueñas</small></h3>
 <hr>
-<h4>Pedidos Pendientes</h4>
-<div class="collection">
+
+<div class="card">
+  <div class="card-content">
+      <span class="card-title">Pedidos Pendiendes</span>
+      <div class="collection">
+          <a href="#!" class="collection-item">Pepipo Peres</a>
+          <a href="#!" class="collection-item active">Alberto Mora</a>
+          <a href="#!" class="collection-item">Maria Valentina</a>
+          <a href="#!" class="collection-item">Iris Agudelo</a>
+        </div>
+  </div>
+</div>
+          
+<div class="divider"></div>
+
+<div class="card">
+<div class="card-content">
+    <span class="card-title">Despachos Recientes</span>
+    <div class="collection">
         <a href="#!" class="collection-item">Pepipo Peres</a>
         <a href="#!" class="collection-item active">Alberto Mora</a>
         <a href="#!" class="collection-item">Maria Valentina</a>
         <a href="#!" class="collection-item">Iris Agudelo</a>
       </div>
-          
-<div class="divider"></div>
-<h4>Despachados Recientemente</h4>
-
-<div class="collection">
-  <a href="#!" class="collection-item">Pepipo Peres</a>
-  <a href="#!" class="collection-item active">Alberto Mora</a>
-  <a href="#!" class="collection-item">Maria Valentina</a>
-  <a href="#!" class="collection-item">Iris Agudelo</a>
+</div>
 </div>
     
 <div class="divider"></div>
 
-<h4>Estadisticas</h4>
+<h4 class="center-align">Estadisticas</h4>
+
 
 <div class="row" style="margin-bottom: 100px">
-  <div class="col s12 m12">
-    <app-grafica *ngIf="datosDias" [datos]="datosDias"></app-grafica>
+  <div class="col s12 m6">
+      <div class="card">
+          <div class="card-content">
+              <span class="card-title">Dias</span>
+              <app-grafica *ngIf="datosDias" [datos]="datosDias"></app-grafica>
+          </div>
+          </div>
   </div>
-  <div class="col s12 m12">
-    <app-grafica *ngIf="datosMeses" [datos]="datosMeses"></app-grafica>
+  <div class="col s12 m6">
+      <div class="card">
+          <div class="card-content">
+              <span class="card-title">Meses</span>
+              <app-grafica *ngIf="datosMeses" [datos]="datosMeses"></app-grafica>
+          </div>
+          </div>
   </div>
 </div>
 

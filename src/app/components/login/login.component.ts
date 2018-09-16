@@ -74,5 +74,10 @@ export class LoginComponent implements OnInit {
     this.password = "";
   }
 
+  cancelar(){
+    this.reset();
+    this.registro = false;
+  }
+
 
 }
