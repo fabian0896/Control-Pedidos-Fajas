@@ -31,7 +31,8 @@ export class EstadistcasService {
 
      return combineLatest(observables).pipe(map(resultados =>{
       //console.log(resultados);
-      
+      temp = [];
+      dias = [];
       if(resultados.length == 2){
        
         let diaInicio:any = 0;
@@ -92,7 +93,7 @@ export class EstadistcasService {
       }
 
       //console.log({ dias: dias, datos: temp });
-      return { dias: dias, datos: temp }
+      return {type: "dias", dias: dias, datos: temp }
 
     }));
 
@@ -141,7 +142,11 @@ export class EstadistcasService {
       let resultado:any[] = [];
       let temp_ventas:number = 0;
       let temp_devoluciones:number = 0;
-      
+      let meses_temp:any[] = [];
+
+      for(let x of meses){
+        meses_temp.push(x);
+      }
 
       for(let mes of respuesta){
         temp_devoluciones = 0;
@@ -157,7 +162,7 @@ export class EstadistcasService {
         resultado.push({ventas: temp_ventas, devoluciones: temp_devoluciones});
       }
 
-      return {datos: resultado, meses: meses}
+      return {type: "meses" , datos: resultado, meses: meses_temp}
     }));
     
 

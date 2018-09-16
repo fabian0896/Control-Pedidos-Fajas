@@ -1,28 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { EstadistcasService } from '../../services/estadistcas.service';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit,OnDestroy {
 
+  datosDiasSub:Subscription;
+  datosMesesSub:Subscription;
+  datosDias:any;
+  datosMeses:any;
   constructor(private estadisticas:EstadistcasService) {
-      this.estadisticas.getEstadisticasSemana(new Date()).subscribe(data=>{
-        console.log(data);
-      });
-
-      this.estadisticas.getEstadisticasMeses(new Date()).subscribe(data => {
-        console.log(data);
+    
+    this.datosMesesSub = this.estadisticas.getEstadisticasMeses(new Date()).subscribe((data)=>{
+      this.datosMeses = data;
+    });  
+    
+    this.datosDiasSub = this.estadisticas.getEstadisticasSemana(new Date()).subscribe((data)=>{
+        this.datosDias = data;
       });
    }
 
   ngOnInit() {
   }
 
-  agregar(){
-    
+  ngOnDestroy(){
+    this.datosMesesSub.unsubscribe();
+    this.datosDiasSub.unsubscribe();
   }
 
 }

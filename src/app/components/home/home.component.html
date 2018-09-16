@@ -23,11 +23,11 @@
 <h4>Estadisticas</h4>
 
 <div class="row" style="margin-bottom: 100px">
-  <div class="col s12 m6">
-    <app-grafica></app-grafica>
+  <div class="col s12 m12">
+    <app-grafica *ngIf="datosDias" [datos]="datosDias"></app-grafica>
   </div>
-  <div class="col s12 m6">
-    <app-grafica></app-grafica>
+  <div class="col s12 m12">
+    <app-grafica *ngIf="datosMeses" [datos]="datosMeses"></app-grafica>
   </div>
 </div>
 
