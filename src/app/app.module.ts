@@ -38,6 +38,7 @@ import { PermisosService } from './services/permisos.service';
 import { EstadistcasService } from './services/estadistcas.service';
 import { GraficaComponent } from './components/grafica/grafica.component';
 import { ChartsModule } from 'ng2-charts';
+import { Ng2ImgMaxModule } from 'ng2-img-max';
 
 
 
@@ -71,7 +72,8 @@ import { ChartsModule } from 'ng2-charts';
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
-    ChartsModule
+    ChartsModule,
+    Ng2ImgMaxModule
   ],
   providers: [
     LoginService,

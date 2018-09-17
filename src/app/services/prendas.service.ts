@@ -4,8 +4,8 @@ import { AngularFireStorage } from 'angularfire2/storage';
 import { finalize, map } from 'rxjs/operators';
 import { Prenda } from '../models/prenda';
 import { Observable} from 'rxjs';
-import { AngularFireAuth } from 'angularfire2/auth';
-
+import { Ng2ImgMaxService } from 'ng2-img-max';
+import { promise } from 'protractor';
 
 
 
@@ -18,7 +18,7 @@ export class PrendasService {
   private itemsCollection: AngularFirestoreCollection<Prenda>;
   downloadURL: Observable<string>;
 
-  constructor(private afs: AngularFirestore,private storage: AngularFireStorage, private auth: AngularFireAuth) {
+  constructor(private afs: AngularFirestore,private storage: AngularFireStorage, private imgMax:Ng2ImgMaxService) {
     
    }
 
@@ -53,17 +53,68 @@ export class PrendasService {
   }
 
 
+  subirPrendaV2(foto: File, nombre:string, referencia:string){
+    return new Promise((resolve, reject)=>{
+      //const filePath = this.CARPETA + "/" + foto.name;
+      this.imgMax.resizeImage(foto, 300 , 300).subscribe(result => {
+        let resize_img = new File([result], foto.name,{type: foto.type});
+        const filePath = this.CARPETA + "/" + this.afs.createId();
+        const fileRef = this.storage.ref(filePath);
+        const task = this.storage.upload(filePath,resize_img);
+        task.then(snapshot => {
+        task.snapshotChanges().pipe(finalize(()=>{
+        this.downloadURL = fileRef.getDownloadURL();
+        //console.log("esta mierda ya cargo");
+        this.downloadURL.subscribe(data=>{
+          let prenda = new Prenda(nombre, referencia, data);
+          prenda.fullPath = snapshot.metadata.fullPath;
+          this.guardarEnDB(prenda);
+          resolve();
+        });
+      })).subscribe();
+    });
+      }, err =>{
+        console.log(err);
+        if(err.error === "UNABLE_TO_COMPRESS_ENOUGH"){
+        let resize_img = new File([err.compressedFile], foto.name,{type: foto.type});
+        const filePath = this.CARPETA + "/" + this.afs.createId();
+        const fileRef = this.storage.ref(filePath);
+        const task = this.storage.upload(filePath,resize_img);
+        task.then(snapshot => {
+        task.snapshotChanges().pipe(finalize(()=>{
+        this.downloadURL = fileRef.getDownloadURL();
+        //console.log("esta mierda ya cargo");
+        this.downloadURL.subscribe(data=>{
+          let prenda = new Prenda(nombre, referencia, data);
+          prenda.fullPath = snapshot.metadata.fullPath;
+          this.guardarEnDB(prenda);
+          resolve();
+        });
+      })).subscribe();
+    });
+        } else{
+          reject();
+        }
+      });
+      
+    }); // fin de la promesa 
+    
+  }
+
+
   borrarPrenda(prenda:Prenda){
-    console.log("entro a borrar prenda");
-    if(!prenda.fullPath){
-      console.error("No se pudo ubicar la prenda!");
-      return;
-    }
-    this.afs.collection(this.CARPETA).doc(prenda.prenda_id).delete().then(()=>{
-      const ref = this.storage.ref(prenda.fullPath);
-      ref.delete();
-      console.log("se borro la prenda correctamente");
-    });    
+    return new Promise((resolve,reject)=>{
+      if(!prenda.fullPath){
+        reject("No se pudo ubicar la prenda!")
+        return;
+      }
+      this.afs.collection(this.CARPETA).doc(prenda.prenda_id).delete().then(()=>{
+        const ref = this.storage.ref(prenda.fullPath);
+        ref.delete();
+        resolve("se borro la prenda correctamente")
+      });
+    });
+        
   }
 
 

@@ -87,8 +87,12 @@ export class PrendasComponent implements OnInit {
 
   agregarPrenda(){
     this.cargando = true;
-    this.ps.subirPrenda(this.archivo,this.formulario.value.nombre,this.formulario.value.sku).then(()=>{
+    this.ps.subirPrendaV2(this.archivo,this.formulario.value.nombre,this.formulario.value.sku).then(()=>{
       this.cargando = false;
+      M.toast({html: 'La imagen se cargo correctamente'});
+    }).catch(()=>{
+      this.cargando = false;
+      M.toast({html: 'se presento un error al cargar la imagen, intenta con otra ;)'});
     });
   }
 
@@ -138,7 +142,11 @@ export class PrendasComponent implements OnInit {
     if(!confirm(`Esta seguro que desea eliminar ${ prenda.nombre } ?`)){
       return;
     }
-    this.ps.borrarPrenda(prenda);
+    this.ps.borrarPrenda(prenda).then(mensaje =>{
+      M.toast({html: mensaje});
+    }).catch(err =>{
+      M.toast({html: err});
+    });
   }
 
 
