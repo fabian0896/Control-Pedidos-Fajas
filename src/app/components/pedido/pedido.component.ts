@@ -37,13 +37,12 @@ export class PedidoComponent implements OnInit {
 
   ngOnInit() {
     if(this.pedido){
-
       this.obtenerNombreVendedor();
       this.calcularEstado(this.pedido.estado);
       this.calcularTotalPrendas(this.pedido);
-
     }
   }
+
 
   calcularTotalPrendas(pedido:Pedido){
       let prendas:Prenda[] = pedido.prendas;

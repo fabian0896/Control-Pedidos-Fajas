@@ -14,14 +14,13 @@ export class PermisosService {
   constructor( private auth:AngularFireAuth, private db:AngularFirestore) { }
 
 
-  getPermisos(){
-    let sub:Subscription;
-    let promesa = new Promise<number>((resolve,reject)=>{
+  getPermisos(){  
+  let promesa = new Promise<number>((resolve,reject)=>{
       if(sessionStorage.getItem('role')){
         let cargo = parseInt(sessionStorage.getItem('role'));
         resolve(cargo);
       } else{
-         sub = this.auth.authState.pipe(switchMap(usuario =>{
+         this.auth.authState.pipe(switchMap(usuario =>{
           return this.db.collection('usuarios', ref => ref.where('uid','==', usuario.uid)).valueChanges();
         })).pipe(tap(()=>{
           console.log("consulta");

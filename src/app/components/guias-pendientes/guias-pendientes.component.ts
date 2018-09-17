@@ -4,7 +4,7 @@ import { Pedido } from '../../models/pedido';
 import { Subscription } from 'rxjs';
 
 declare var $:any;
-
+declare var M:any;
 
 @Component({
   selector: 'app-guias-pendientes',
@@ -60,5 +60,15 @@ export class GuiasPendientesComponent implements OnInit, OnDestroy {
     this.pedidoTemporal.guia = this.numeroGuia;
     this.pedidosService.editarPedido(this.pedidoTemporal);
   }
+
+ copyToClipboard(texto:string) {
+    var $temp = $("<input>")
+    $("body").append($temp);
+    $temp.val(texto).select();
+    document.execCommand("copy");
+    $temp.remove();
+    M.toast({html: `se copió: ${ texto }`,displayLength: 600})
+  }
+
 
 }
