@@ -20,7 +20,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   usuario;
 
   cargo:Observable<string>;
-  permiso:Observable<number>;
+  permiso:Promise<any>;
 
   guiasP:number;
   facturasP : number;
@@ -113,6 +113,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   salir(){
+    sessionStorage.clear();
     this.prendasSub.unsubscribe();
     this.facturasSub.unsubscribe();
     this.guiasSub.unsubscribe();

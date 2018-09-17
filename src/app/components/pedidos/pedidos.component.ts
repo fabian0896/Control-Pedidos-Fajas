@@ -29,7 +29,7 @@ export class PedidosComponent implements OnInit, OnDestroy {
   totalPrendasTemporal:string;
   guiaTemporal:string;
 
-  permiso:Observable<number>;
+  permiso:Promise<number>;
 
   todosLosPedidosSub:Subscription;
   pedidosPendientesSub: Subscription;

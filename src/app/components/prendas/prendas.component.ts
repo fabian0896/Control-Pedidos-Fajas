@@ -35,7 +35,7 @@ export class PrendasComponent implements OnInit {
   prendaTemporal:Prenda;
 
 
-  permiso:Observable<number>;
+  permiso:Promise<number>;
 
   constructor(private ps:PrendasService, private permisos:PermisosService) { 
    

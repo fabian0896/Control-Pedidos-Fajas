@@ -3,7 +3,7 @@ import { Pedido } from '../../models/pedido';
 import { PedidosService } from '../../services/pedidos.service';
 import { Prenda } from '../../models/prenda';
 declare var M:any;
-
+declare var $:any;
 
 @Component({
   selector: 'app-lista-prendas',
@@ -19,10 +19,11 @@ export class ListaPrendasComponent implements OnInit, OnChanges {
 
   constructor(private pedidoService:PedidosService) { 
     
+    
   }
 
   ngOnInit() {
-   
+    
   }
 
   ngOnChanges(){

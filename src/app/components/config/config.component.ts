@@ -31,7 +31,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
 
   generado:boolean = false;
 
-  permiso:Observable<number>;
+  permiso:Promise<number>;
 
   constructor(private logIn:LoginService, private auth:AngularFireAuth, private db:AngularFirestore, private permisos:PermisosService) { 
     

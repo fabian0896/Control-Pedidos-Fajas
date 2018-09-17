@@ -15,7 +15,7 @@ export class PrendasPendientesComponent implements OnInit, OnDestroy {
   pedidos: any[];
   misPedidos: any[];
 
-  permiso:Observable<number>;
+  permiso:Promise<number>;
   tipoCuenta:number;
   sub:Subscription;
 
