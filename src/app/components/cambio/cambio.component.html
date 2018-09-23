@@ -1,0 +1,140 @@
+<h4>Agregar Cambio</h4>
+<hr>
+
+<!-- RESUMEN -->
+
+<div *ngIf="pedido" class="card-panel">
+    <h5>{{ pedido.nombre }}</h5>
+    <p><strong>Fecha Venta:</strong>{{ pedido.fechaVenta | date: 'dd/MM/yyyy' }}</p>
+    <p><strong>Fecha ultimo despacho:</strong> {{ pedido.fechaDespacho | date: 'dd/MM/yyyy' }}</p>
+    <p><strong>Numero de cambios:</strong> 0 </p>
+    <p><strong>medio de Contacto:</strong> {{ pedido.medioVenta }} / {{ pedido.observaciones }}</p>
+    <app-lista-prendas [pedido]="pedido" [editable]="false"></app-lista-prendas>
+</div>
+
+
+
+
+<!-- AGREGAR CAMBIO -->
+
+
+
+<div class="card-panel">
+  <h5 style="margin-bottom: 10px">Agregar Cambio</h5>
+  
+  <form *ngIf="pagina == 1" [formGroup]="formulario_1" (ngSubmit)="agregarPrenda(nombrePrenda.value)">
+    <div class="row">
+   
+      <div class="input-field col s8 m4">
+        <i class="material-icons prefix">accessibility</i>
+        <input autocomplete="off" #nombrePrenda formControlName="nombre" type="text" id="autocomplete-input" class="autocomplete">
+        <label for="autocomplete-input">Autocomplete</label>
+      </div>
+
+      <div class="input-field col s4 m2">
+        <select formControlName="talla">
+            <option value="" disabled selected>Talla</option>
+            <option value="28">2XS</option>
+            <option value="30">XS</option>
+            <option value="32">S</option>
+            <option value="34">M</option>
+            <option value="36">L</option>
+            <option value="38">XL</option>
+            <option value="40">2XL</option>
+            <option value="42">3XL</option>
+            <option value="44">4XL</option>
+            <option value="46">5XL</option>
+            <option value="48">6XL</option>
+            <option value="50">7XL</option>
+          </select>
+          <label>Talla</label>
+    </div>
+
+    <div class="input-field col s6 m2">
+      <input formControlName="color" placeholder="Color"  type="text" class="validate">
+      <label class="active" for="Color">Color</label>
+    </div>
+    
+    <div class="input-field col s4 m1">
+      <input formControlName="cantidad" placeholder="Cantidad"  type="number" class="validate">
+      <label class="active" for="Cantidad">Cantidad</label>
+    </div>
+
+    <div class="col s2 m1">
+      <button type="submit" class="btn-floating btn-medium waves-effect waves-light green"><i class="material-icons">add</i></button>
+    </div>
+
+    </div>
+    
+    <div class="row ">
+      <div class="col">
+        <button (click)="cambiarPagina(2)" [disabled]="!(prendas.length > 0)" type="button" class="btn waves-effect waves-light">Siguiente</button>       
+      </div> 
+    </div>
+  </form >
+      
+
+  <form (ngSubmit)="guardarCambio()" [formGroup]="formulario_2" *ngIf="pagina == 2">
+      <div class="row">
+          <div class="col s12">
+              <div class="input-field col s6 m4">
+                  <input formControlName="valor" placeholder="Valor del cambio" type="text" class="validate">
+                  <label class="active" for="valor">Valor del Cambio</label>
+                </div>
+          </div> 
+    
+          <div class="input-field col s12 m6">
+              <select formControlName="motivo">
+                  <option value="" disabled selected>Motivo de Cambio</option>
+                  <option value="Talla incorrecta">Talla incorrecta</option>
+                  <option value="Prenda defectuosa">Prenda defectuosa</option>
+                  <option value="Reduccion de talla">Reduccion de talla</option>
+                  <option value="Arreglo">Arreglo</option>
+                  <option value="Inconformidad con el producto">Inconformidad con el producto</option>
+                  <option value="Otras">Otras</option>
+              
+                </select>
+                <label>Motivo de cambio</label>
+          </div>
+          </div>
+
+         <div class="row">
+           <button type="button" (click)="cambiarPagina(1)" class="btn-flat">Atras</button>
+           <button [disabled]="formulario_2.invalid" type="submit" class="btn">Guardar</button>
+         </div> 
+  </form>
+
+  
+
+  <ul class="collection">
+      <li *ngFor="let prenda of prendas; let i = index" class="collection-item avatar">
+        <img [src]="prenda.imagen" alt="" class="circle">
+        <span class="title">{{ prenda.nombre }} ({{ prenda.sku }})</span>
+        <p> <strong>Color:</strong> {{ prenda.color }} <strong>Talla:</strong> {{ prenda.talla }} <br>
+            <strong>Valor:</strong>{{ prenda.valor | currency:'COP':'symbol-narrow':'.0-0' }}   <strong>Cantidad:</strong> {{ prenda.cantidad }}
+        </p>
+        <a *ngIf="pagina == 1" (click)="borrarPrenda(i)" style="cursor: pointer;" class="secondary-content"><i class="material-icons">delete</i></a>
+      </li>
+  </ul> 
+
+</div>
+
+
+
+<!-- RESUMEN DE CAMBIO -->
+
+
+<ul class="collapsible">
+  <li>
+    <div class="collapsible-header red lighten-4"><i class="material-icons">import_export</i> Cambio 3<span class="right-align">(30/04/18)</span></div>
+    <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+  </li>
+  <li>
+    <div class="collapsible-header light-green lighten-4"><i class="material-icons">import_export</i>Cambio 2 (20/04/18)</div>
+    <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+  </li>
+  <li>
+    <div class="collapsible-header light-green lighten-4"><i class="material-icons">import_export</i>Cambio 1 (5/03/18)</div>
+    <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+  </li>
+</ul>

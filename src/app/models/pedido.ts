@@ -1,4 +1,5 @@
 import { Prenda } from "./prenda";
+import { Cambio } from "./cambio";
 
 export class Pedido{
     id:string;
@@ -19,6 +20,7 @@ export class Pedido{
     completado: boolean;
     factura:string;
     algoliaId:string;
+    cambios:Cambio[];
     constructor( nombre:string="", 
                  telefono:string="",
                  ciudad:string="",

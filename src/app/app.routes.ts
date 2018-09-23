@@ -12,6 +12,7 @@ import { GuiasPendientesComponent } from './components/guias-pendientes/guias-pe
 import { FacturasComponent } from './components/facturas/facturas.component';
 import { BusquedaComponent } from './components/busqueda/busqueda.component';
 import { ConfigComponent } from './components/config/config.component';
+import { CambioComponent } from './components/cambio/cambio.component';
 
 
 
@@ -28,6 +29,7 @@ export const routes: Routes = [
     { path: 'config', component: ConfigComponent, canActivate: [AuthGuardGuard] },
     { path: 'detalles', component: DetallesPedidoComponent, canActivate: [AuthGuardGuard] },
     { path: 'detalles/:id', component: DetallesPedidoComponent, canActivate: [AuthGuardGuard] },
+    { path: 'cambio/:id', component: CambioComponent, canActivate: [AuthGuardGuard] },
     { path: '**', pathMatch: 'full', redirectTo: 'home' },
 ];
 

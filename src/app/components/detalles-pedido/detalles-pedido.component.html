@@ -66,11 +66,11 @@
   </div>
 
   <div class="row">
-    <div *ngIf="guia != ''" class="input-field col s6 m4">
+    <div *ngIf="(guia != '') || isEdicion " class="input-field col s6 m4">
         <input placeholder="guia" name="guia" [(ngModel)]="guia" type="text" class="validate">
         <label class="active" for="guia">Guia</label>
       </div>
-      <div *ngIf="factura != ''" class="input-field col s6 m4">
+      <div *ngIf="(factura != '') || isEdicion" class="input-field col s6 m4">
           <input autocomplete="off" placeholder="Factura" name="factura" [(ngModel)]="factura" type="text" class="validate">
           <label class="active" for="factura">Factura</label>
       </div>

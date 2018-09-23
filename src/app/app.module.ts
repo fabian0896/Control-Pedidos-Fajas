@@ -39,6 +39,7 @@ import { EstadistcasService } from './services/estadistcas.service';
 import { GraficaComponent } from './components/grafica/grafica.component';
 import { ChartsModule } from 'ng2-charts';
 import { Ng2ImgMaxModule } from 'ng2-img-max';
+import { CambioComponent } from './components/cambio/cambio.component';
 
 
 
@@ -61,7 +62,8 @@ import { Ng2ImgMaxModule } from 'ng2-img-max';
     SkuvalidatorDirective,
     BusquedaComponent,
     ConfigComponent,
-    GraficaComponent
+    GraficaComponent,
+    CambioComponent
   ],
   imports: [
     BrowserModule,
