@@ -114,6 +114,11 @@ export class MisPedidosComponent implements OnInit, OnDestroy, OnChanges {
 
   cambiarEstadoPedido(estado:number){
     if(estado == 5){
+
+      //aqui hay que hacer la condicional para saber si el pedido es un cambio o no
+      // y en base en eso revisar si el cambio ya tiene guia
+      // caso contrario pedir la guia y guardarla en el cambio ademas de modificar el estado del cambio
+
       if(this.pedidoTemporal.guia){
         this.pedidoTemporal.estado = estado;
         this.pedidoTemporal.completado = true;

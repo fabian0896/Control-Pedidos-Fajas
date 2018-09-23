@@ -14,7 +14,8 @@ export class ListaPrendasComponent implements OnInit, OnChanges {
 
   @Input() pedido:Pedido;
   @Input() editable:boolean = true;
-
+  @Input() modificable:boolean = true;
+  @Input() isCambio:boolean = false;
   @Output() onCambio = new EventEmitter();
 
   constructor(private pedidoService:PedidosService) { 
@@ -23,7 +24,8 @@ export class ListaPrendasComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    
+  
+
   }
 
   ngOnChanges(){
@@ -40,9 +42,14 @@ export class ListaPrendasComponent implements OnInit, OnChanges {
     } else if ( estado == 2) {
       M.toast({html: 'Prenda lista!', displayLength: 1000});
     }
-    this.pedido.prendas[idx].estado = estado;
-    this.pedido.completado = false;
-    this.pedido.estado = this.calcularEtadoPedido(this.pedido.prendas);
+    if(this.pedido.isCambio){
+      this.pedido.cambios[0].prendas[idx].estado = estado;
+      this.pedido.estado = this.calcularEtadoPedido(this.pedido.cambios[0].prendas);
+    } else {
+      this.pedido.prendas[idx].estado = estado;
+      this.pedido.completado = false;
+      this.pedido.estado = this.calcularEtadoPedido(this.pedido.prendas);
+    }
     this.pedidoService.editarPedido(this.pedido);
     this.onCambio.emit();
 }

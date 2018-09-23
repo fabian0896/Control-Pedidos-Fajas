@@ -12,6 +12,7 @@ export class Pedido{
     fechaVenta; //****
     estado: number; // 0=dalgunso datos pendientes, 1=Pendiente por despacho, 2 = algunas prendas produccion, 3 = empacado, 4 = despachado
     fechaDespacho;
+    fecha;
     vendedor: string;
     guia: string;
     observaciones:string;
@@ -21,6 +22,7 @@ export class Pedido{
     factura:string;
     algoliaId:string;
     cambios:Cambio[];
+    isCambio:boolean;
     constructor( nombre:string="", 
                  telefono:string="",
                  ciudad:string="",
@@ -46,6 +48,8 @@ export class Pedido{
         this.id="";
         this.completado = false;
         this.factura = "";
+        this.isCambio = false;
+        this.cambios = [];
         if(estado){
             this.estado = estado;
         } else {

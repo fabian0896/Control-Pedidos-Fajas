@@ -129,7 +129,6 @@ export class CambioComponent implements OnInit {
 
 
   guardarCambio(){
-    console.log(this.prendas, this.formulario_2);
     this.cambiarPagina(1);
     this.formulario_2.reset();
     let valor = this.formulario_2.controls.valor.value;
@@ -137,9 +136,12 @@ export class CambioComponent implements OnInit {
     if(valor){
       cambio.valor = valor;
     }
+    this.pedido.isCambio = true;
+    this.pedido.estado = 1;
+    this.pedido.fecha = cambio.fechaCambio;
+    this.pedido.completado = false;
     this.pedido.cambios.unshift(cambio);
     this.ps.editarPedido(this.pedido);
-
   }
 
 

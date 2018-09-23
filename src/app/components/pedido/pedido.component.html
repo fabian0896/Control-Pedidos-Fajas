@@ -6,10 +6,10 @@
                         <div class="card-content">
                           <div class="row valign-wrapper ">
                             <div class="col s12 m8 ">
-                                <span  class="card-title"><strong>{{ pedido.nombre }}</strong></span>
+                                <span  class="card-title"><strong>{{ pedido.nombre }} {{ textoCambio }}</strong></span>
                             </div>
                             <div class="col s12 m4 right-align"> 
-                                <p>{{ pedido.fechaVenta | date: 'dd/MM/yyyy' }} <br><strong>{{ estadoPedido }}</strong></p>   
+                                <p>{{ pedido.fecha | date: 'dd/MM/yyyy' }} <br><strong>{{ estadoPedido }}</strong></p>   
                             </div>
                           </div>
                           <div class="row">

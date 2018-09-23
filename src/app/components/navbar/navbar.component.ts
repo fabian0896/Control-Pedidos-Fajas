@@ -66,11 +66,19 @@ export class NavbarComponent implements OnInit, OnDestroy {
             this.pedidosP = data.length;
             this.prendasP = 0;
             for(let pedido of data){
-              for(let prenda of pedido.prendas){
-                if(prenda.estado <= 1 ){
-                  this.prendasP += prenda.cantidad;
+              if(pedido.isCambio){
+                for(let prenda of pedido.cambios[0].prendas){
+                  if(prenda.estado <= 1 ){
+                    this.prendasP += prenda.cantidad;
+                  }
                 }
-              } 
+              }else{
+                for(let prenda of pedido.prendas){
+                  if(prenda.estado <= 1 ){
+                    this.prendasP += prenda.cantidad;
+                  }
+                }
+              }
             }
             //console.log(this.prendasP);   
         }

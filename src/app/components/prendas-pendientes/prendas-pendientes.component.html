@@ -18,16 +18,16 @@
 
     <div id="misprendas">
         <div  *ngFor="let pedido of misPedidos" >
-            <h5>{{ pedido.nombre }}</h5>  
-              <app-lista-prendas [pedido]="pedido" ></app-lista-prendas>
+            <h5>{{ pedido.nombre }} {{ pedido.isCambio? "(CAMBIO)": "" }}</h5>  
+              <app-lista-prendas [isCambio]="pedido.isCambio" [pedido]="pedido" ></app-lista-prendas>
               <div class="divider" ></div>
         </div>
 
     </div>
     <div id="todas">
         <div  *ngFor="let pedido of pedidos" >
-            <h5>{{ pedido.nombre }}</h5>  
-              <app-lista-prendas [pedido]="pedido" [editable]="(permiso | async) >= 3" ></app-lista-prendas>
+            <h5>{{ pedido.nombre }} {{ pedido.isCambio? "(CAMBIO)": "" }}</h5>  
+              <app-lista-prendas [isCambio]="pedido.isCambio" [pedido]="pedido" [modificable]="(permiso | async) >= 3" ></app-lista-prendas>
               <div class="divider" ></div>
         </div>
     </div>

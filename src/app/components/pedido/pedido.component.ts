@@ -22,6 +22,7 @@ export class PedidoComponent implements OnInit {
 
   estadoPedido: string;
 
+  textoCambio:string = "";
 
   totalPrendas: number = 0;
 
@@ -37,6 +38,11 @@ export class PedidoComponent implements OnInit {
 
   ngOnInit() {
     if(this.pedido){
+      if(this.pedido.isCambio){
+        this.textoCambio = "(CAMBIO)";
+      } else {
+        this.textoCambio = "";
+      }
       this.obtenerNombreVendedor();
       this.calcularEstado(this.pedido.estado);
       this.calcularTotalPrendas(this.pedido);

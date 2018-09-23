@@ -100,7 +100,15 @@
                     <small>{{ totalPrendasTemporal }}</small>
                 </h6>
 
-                <app-lista-prendas [pedido]="pedidoTemporal"></app-lista-prendas>
+                <app-lista-prendas [modificable]="!pedidoTemporal.isCambio" [pedido]="pedidoTemporal"></app-lista-prendas>
+                <hr>
+
+                <div *ngIf="pedidoTemporal.isCambio">
+                    <h5>Ultimo cambio</h5>
+                    <p><strong>Fecha del cambio: </strong> {{ pedidoTemporal.cambios[0].fechaCambio | date: 'dd/MM/yyyy' }}</p>
+                    <app-lista-prendas [isCambio]="pedidoTemporal.isCambio" [pedido]="pedidoTemporal"></app-lista-prendas>
+                </div>
+                
 
             </div>
             <div class="modal-footer">

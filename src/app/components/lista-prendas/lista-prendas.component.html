@@ -1,4 +1,4 @@
-<ul *ngIf="pedido" class="collection">
+<ul *ngIf="pedido && !isCambio" class="collection">
     <li *ngFor="let prenda of pedido.prendas; let i = index" [ngClass]="[ prenda.estado | colorEstadoPrenda ]" class="collection-item avatar">
       
       <img [src]="prenda.imagen" alt="" class="circle">
@@ -10,7 +10,7 @@
           <strong>Valor:</strong>{{ prenda.valor | currency:'COP':'symbol-narrow':'.0-0' }}
           <strong class="right">X {{ prenda.cantidad }}</strong>    
         </p>
-        <div *ngIf="editable" class="secondary-content">
+        <div *ngIf="editable && modificable" class="secondary-content">
           <a *ngIf="prenda.estado != 0" (click)="estadoPrenda(0, i )" style="cursor: pointer;" >
             <i  class="small material-icons">access_time</i>
           </a>   
@@ -23,3 +23,32 @@
         </div>
     </li>
   </ul>
+
+
+  <ul *ngIf="pedido && isCambio" class="collection">
+      <li *ngFor="let prenda of pedido.cambios[0].prendas; let i = index" [ngClass]="[ prenda.estado | colorEstadoPrenda ]" class="collection-item avatar">
+        
+        <img [src]="prenda.imagen" alt="" class="circle">
+        <span class="title">{{ prenda.nombre }} ({{ prenda.sku }})</span>
+        <p>
+            <strong>Color:</strong> {{ prenda.color }}
+            <strong>Talla:</strong> {{ prenda.talla }}
+            <br>
+            <strong>Valor:</strong>{{ prenda.valor | currency:'COP':'symbol-narrow':'.0-0' }}
+            <strong class="right">X {{ prenda.cantidad }}</strong>    
+          </p>
+          <div *ngIf="editable && modificable" class="secondary-content">
+            <a *ngIf="prenda.estado != 0" (click)="estadoPrenda(0, i )" style="cursor: pointer;" >
+              <i  class="small material-icons">access_time</i>
+            </a>   
+            <a *ngIf="prenda.estado != 2" (click)="estadoPrenda(2, i )" style="cursor: pointer;" >
+              <i  class="small material-icons">check_circle</i>
+            </a> 
+            <a *ngIf="prenda.estado != 1" (click)="estadoPrenda(1, i )" style="cursor: pointer;"  >
+              <i class="small material-icons">local_parking</i>
+            </a>  
+          </div>
+      </li>
+    </ul>
+
+

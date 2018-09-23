@@ -48,6 +48,7 @@ export class PedidosService {
     sub = this.afAuth.authState.subscribe(usuario=>{
       pedido.vendedor = usuario.uid;
       pedido.fechaVenta = new Date().getTime();
+      pedido.fecha = pedido.fechaVenta;
     // llamar a agolia
     this.algolia.guardarNuevo(pedido).then((agoliaId:string)=>{
       pedido.algoliaId = agoliaId;
@@ -86,40 +87,44 @@ export class PedidosService {
     
   }
 
+
   getTodos(){
-    return this.afs.collection(this.CARPETA, ref => ref.orderBy('fechaVenta','desc').limit(this.limiteConsultaTodos)).valueChanges();
+    return this.afs.collection(this.CARPETA, ref => ref.orderBy('fecha','desc').limit(this.limiteConsultaTodos)).valueChanges();
   }
 
   getPendientesTodos(){
-    return this.afs.collection(this.CARPETA, ref => ref.where('completado','==', false).orderBy('fechaVenta','asc')).valueChanges();
+    return this.afs.collection(this.CARPETA, ref => ref.where('completado','==', false).orderBy('fecha','asc')).valueChanges();
   }
 
   getCompletadosTodos(){
-    return this.afs.collection(this.CARPETA, ref => ref.where('completado','==', true).orderBy('fechaVenta','desc').limit(this.limiteConsultaCompletadosTodos)).valueChanges();
+    return this.afs.collection(this.CARPETA, ref => ref.where('completado','==', true).orderBy('fecha','desc').limit(this.limiteConsultaCompletadosTodos)).valueChanges();
   }
 
   getMisPedidos(){
     return this.afAuth.authState.pipe(switchMap(usuario => {
-      return this.afs.collection(this.CARPETA, ref => ref.where('vendedor','==', usuario.uid ).orderBy('fechaVenta',"desc").limit(this.limiteConsultaMisPedidosTodos)).valueChanges();
+      return this.afs.collection(this.CARPETA, ref => ref.where('vendedor','==', usuario.uid ).orderBy('fecha',"desc").limit(this.limiteConsultaMisPedidosTodos)).valueChanges();
     }));
   }
 
 
   getCompletadosMisPedidos(){
     return this.afAuth.authState.pipe(switchMap(usuario => {
-      return this.afs.collection(this.CARPETA, ref => ref.where('vendedor','==', usuario.uid ).where('completado','==', true).orderBy('fechaVenta',"desc").limit(this.limiteConsultaMisPedidosCompletado)).valueChanges();
+      return this.afs.collection(this.CARPETA, ref => ref.where('vendedor','==', usuario.uid ).where('completado','==', true).orderBy('fecha',"desc").limit(this.limiteConsultaMisPedidosCompletado)).valueChanges();
     }));
   }
 
 
   getPendientesMisPedidos(){
     return this.afAuth.authState.pipe(switchMap(usuario => {
-      return this.afs.collection(this.CARPETA, ref => ref.where('vendedor','==', usuario.uid ).where('completado','==', false).orderBy('fechaVenta','asc').limit(20)).valueChanges();
+      return this.afs.collection(this.CARPETA, ref => ref.where('vendedor','==', usuario.uid ).where('completado','==', false).orderBy('fecha','asc').limit(20)).valueChanges();
     }));
   }
 
+
+
+
   getPedidosGuiasPendientesTodos(){
-    return this.afs.collection(this.CARPETA, ref => ref.where('completado','==', false).where('guia','==','').orderBy('fechaVenta','asc')).valueChanges();
+    return this.afs.collection(this.CARPETA, ref => ref.where('completado','==', false).where('guia','==','').orderBy('fecha','asc')).valueChanges();
   }
 
   getMisPedidosGuiasPendientes(){
