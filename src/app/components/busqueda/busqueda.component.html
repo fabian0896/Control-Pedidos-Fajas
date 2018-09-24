@@ -17,70 +17,81 @@
 <!-- MODAL 1 -->
 
 <div id="modal1" class="modal modal-fixed-footer">
-  <div *ngIf="pedidoTemporal">
-      <div class="modal-content">
-          <h4>{{ pedidoTemporal.nombre }}</h4>
-          <hr>
-          <div class="row">
-              <div class="col s6">
-                  <p>
-                      <strong>Telefono: </strong>
-                      <br> {{ pedidoTemporal.telefono }}</p>
-                  <p>
-                      <strong>Ciudad: </strong>
-                      <br> {{ pedidoTemporal.ciudad }}</p>
-                  <p>
-                      <strong>Dirección: </strong>
-                      <br> {{ pedidoTemporal.direccion }}</p>
-                  <p>
-                      <strong>Valor Total: </strong>
-                      <br> {{ pedidoTemporal.valorTotal | currency:'COP':'symbol-narrow':'.0-0' }}</p>
-                  <p>
-                      <strong>Fecha Venta: </strong>
-                      <br> {{ pedidoTemporal.fechaVenta | date: 'dd/MM/yyyy' }}</p>
-                  <p *ngIf="pedidoTemporal.fechaDespacho">
-                      <strong>Fecha Despacho: </strong>
-                      <br> {{ pedidoTemporal.fechaDespacho | date: 'dd/MM/yyyy' }}</p>
-              </div>
-              <div class="col s6">
-                  <p>
-                      <strong> {{ pedidoTemporal.medioVenta}} </strong>
-                      <br> {{ pedidoTemporal.observaciones }}</p>
-                  <p>
-                      <strong>Medio de Pago: </strong>
-                      <br> {{ pedidoTemporal.medioPago }}</p>
-                  <p>
-                      <strong>Estado del Pedido: </strong>
-                      <br> {{ estadoPedidoTemporal }}</p>
-                  <p>
-                      <strong>Vendedor: </strong>
-                      <br> {{ nombreVendedorTemporal }}</p>
-                  <p *ngIf="pedidoTemporal.guia">
-                      <strong>Guia: </strong>
-                      <br> {{ pedidoTemporal.guia }}</p>
-                  <p *ngIf="pedidoTemporal.factura">
-                      <strong>Factura N°: </strong>
-                      <br> {{ pedidoTemporal.factura }}</p>    
-              </div>
-          </div>
+        <div *ngIf="pedidoTemporal">
+            <div class="modal-content">
+                <h4>{{ pedidoTemporal.nombre }}</h4>
+                <hr>
+                <div class="row">
+                    <div class="col s6">
+                        <p>
+                            <strong>Telefono: </strong>
+                            <br> {{ pedidoTemporal.telefono }}</p>
+                        <p>
+                            <strong>Ciudad: </strong>
+                            <br> {{ pedidoTemporal.ciudad }}</p>
+                        <p>
+                            <strong>Dirección: </strong>
+                            <br> {{ pedidoTemporal.direccion }}</p>
+                        <p>
+                            <strong>Valor Total: </strong>
+                            <br> {{ pedidoTemporal.valorTotal | currency:'COP':'symbol-narrow':'.0-0' }}</p>
+                        <p>
+                            <strong>Fecha Venta: </strong>
+                            <br> {{ pedidoTemporal.fechaVenta | date: 'dd/MM/yyyy' }}</p>
+                        <p *ngIf="pedidoTemporal.fechaDespacho">
+                            <strong>Fecha Despacho: </strong>
+                            <br> {{ pedidoTemporal.fechaDespacho | date: 'dd/MM/yyyy' }}</p>
+                    </div>
+                    <div class="col s6">
+                        <p>
+                            <strong> {{ pedidoTemporal.medioVenta}} </strong>
+                            <br> {{ pedidoTemporal.observaciones }}</p>
+                        <p>
+                            <strong>Medio de Pago: </strong>
+                            <br> {{ pedidoTemporal.medioPago }}</p>
+                        <p>
+                            <strong>Estado del Pedido: </strong>
+                            <br> {{ estadoPedidoTemporal }}</p>
+                        <p>
+                            <strong>Vendedor: </strong>
+                            <br> {{ nombreVendedorTemporal }}</p>
+                        <p *ngIf="pedidoTemporal.guia">
+                            <strong>Guia: </strong>
+                            <br> {{ pedidoTemporal.guia }}</p>
+                        <p *ngIf="pedidoTemporal.factura">
+                            <strong>Factura N°: </strong>
+                            <br> {{ pedidoTemporal.factura }}</p>
+                    </div>
+                </div>
 
-          <hr>
-          <h6>Total de prendas:
-              <small>{{ totalPrendasTemporal }}</small>
-          </h6>
+                <hr>
+                <h6>Total de prendas:
+                    <small>{{ totalPrendasTemporal }}</small>
+                </h6>
 
-          <app-lista-prendas [pedido]="pedidoTemporal"></app-lista-prendas>
+                <app-lista-prendas [modificable]="!pedidoTemporal.isCambio" [pedido]="pedidoTemporal"></app-lista-prendas>
+                <hr>
 
-      </div>
-      <div class="modal-footer">
-        <a (click)="cambiarEstadoPedido(4)" *ngIf="pedidoTemporal.estado == 3" class="waves-effect waves-green btn-flat green-text">Empacado</a>
-        <a (click)="cambiarEstadoPedido(5)" *ngIf="pedidoTemporal.estado == 4" class="modal-close waves-effect waves-green btn-flat green-text">Despachado</a>
-        <a (click)="cambiarEstadoPedido(6)" *ngIf="pedidoTemporal.estado == 5" class="modal-close waves-effect waves-red btn-flat red-text">Devolucion</a>
-        <a (click)="cambiarEstadoPedido(4)" *ngIf="pedidoTemporal.estado >= 5" class="modal-close waves-effect waves-green btn-flat">Cambiar estado</a>
-        <a class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+                <div *ngIf="pedidoTemporal.isCambio">
+                    <h5>Ultimo cambio</h5>
+                    <p><strong>Fecha del cambio: </strong> {{ pedidoTemporal.cambios[0].fechaCambio | date: 'dd/MM/yyyy' }}</p>
+                    <p><strong>Fecha de despacho:</strong> {{ pedidoTemporal.cambios[0].fechaDespacho | date: 'dd/MM/yyyy' }}</p>
+                    <p><strong>Guia de Cambio:</strong> {{ pedidoTemporal.cambios[0].guia }} </p>
+                    <app-lista-prendas [isCambio]="pedidoTemporal.isCambio" [pedido]="pedidoTemporal"></app-lista-prendas>
+                </div>
+                
+
+            </div>
+            <div class="modal-footer">
+                    <a (click)="cambiarEstadoPedido(4)" *ngIf="pedidoTemporal.estado == 3" class="waves-effect waves-green btn-flat green-text">Empacado</a>
+                    <a (click)="cambiarEstadoPedido(5)" *ngIf="pedidoTemporal.estado == 4" class="modal-close waves-effect waves-green btn-flat green-text">Despachado</a>
+                    <a (click)="cambiarEstadoPedido(6)" *ngIf="(pedidoTemporal.estado == 5) && !pedidoTemporal.isCambio" class="modal-close waves-effect waves-red btn-flat red-text">Devolucion</a>
+                    <a [routerLink]="['/cambio', pedidoTemporal.id]" *ngIf="pedidoTemporal.estado == 5" class="modal-close waves-effect waves-red btn-flat">Cambio</a>
+                    <a (click)="cambiarEstadoPedido(4)" *ngIf="pedidoTemporal.estado >= 5" class="modal-close waves-effect waves-green btn-flat">Cambiar estado</a>
+                    <a class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
 <!-- MODAL 2 -->
 

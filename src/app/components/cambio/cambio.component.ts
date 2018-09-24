@@ -26,21 +26,40 @@ export class CambioComponent implements OnInit {
   formulario_2:FormGroup;
 
   pagina:number =  1;
+
+ permitirCambio:boolean = false;
+
+  ultimoDespacho;
   
   pedido:Pedido;
 
   constructor(private ps:PedidosService, private db:AngularFirestore, private router:Router, private activeRouter:ActivatedRoute) { 
 
-    this.activeRouter.params.pipe(switchMap((params:any) =>{
+    this.activeRouter.params.pipe(take(1),switchMap((params:any) =>{
       return this.db.collection('pedidos').doc(params.id).valueChanges();
     })).subscribe((pedido:any)=>{
       this.pedido = pedido;
-      console.log(this.pedido);
+      this.ultimoDespacho = this.calcularUltimaFechaDespacho(this.pedido);
+
+      if(this.pedido.isCambio){
+        if(this.pedido.cambios[0].completado){
+          this.permitirCambio = true;
+        }
+      } else {
+        this.permitirCambio = true;
+      }
+
       if(!pedido){
         this.router.navigate(['/mispedidos']);
       }
-    })
 
+      setTimeout(()=>{
+        $('.collapsible').collapsible();
+      }, 300);
+      
+    });
+    //--------------
+    
     this.db.collection('prendas').valueChanges().pipe(take(1)).subscribe((prendas:any) =>{
       let datos = {}
       this.referencias = prendas;
@@ -52,10 +71,13 @@ export class CambioComponent implements OnInit {
       });
     });
     
+    //---------------
+
     $(document).ready(function(){
       $('.collapsible').collapsible();
       $('select').formSelect();
     });
+
 
     this.formulario_1 = new FormGroup({
       nombre: new FormControl('', Validators.required),
@@ -74,6 +96,18 @@ export class CambioComponent implements OnInit {
 
 
   ngOnInit() {
+  }
+
+  calcularUltimaFechaDespacho(pedido:Pedido){
+    if(pedido.isCambio){
+      if(pedido.cambios[0].fechaDespacho){
+        return pedido.cambios[0].fechaDespacho;
+      } else {
+        return pedido.fechaDespacho;
+      }
+    } else {
+      return pedido.fechaDespacho;
+    }
   }
 
 
@@ -103,6 +137,7 @@ export class CambioComponent implements OnInit {
     prenda_temp.cantidad = cantidad;
     prenda_temp.talla = talla;
     prenda_temp.color = color;
+    prenda_temp.valor = "0";
     this.formulario_1.reset();
     this.prendas.push(prenda_temp);
   }

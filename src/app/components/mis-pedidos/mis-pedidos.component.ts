@@ -107,18 +107,33 @@ export class MisPedidosComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   agregarGuia(){
-    this.pedidoTemporal.guia = this.guiaTemporal;
+    if(this.pedidoTemporal.isCambio){
+      this.pedidoTemporal.cambios[0].guia = this.guiaTemporal;
+    } else {
+      this.pedidoTemporal.guia = this.guiaTemporal;
+    }
     this.pedidoService.editarPedido(this.pedidoTemporal);
     this.guiaTemporal = "";
   }
 
   cambiarEstadoPedido(estado:number){
     if(estado == 5){
-
       //aqui hay que hacer la condicional para saber si el pedido es un cambio o no
       // y en base en eso revisar si el cambio ya tiene guia
       // caso contrario pedir la guia y guardarla en el cambio ademas de modificar el estado del cambio
-
+      if(this.pedidoTemporal.isCambio){
+        
+        if(this.pedidoTemporal.cambios[0].guia == ""){
+          $('#modal2').modal('open');  
+          return;
+        }
+        this.pedidoTemporal.estado = 5;
+        this.pedidoTemporal.completado = true;
+        this.pedidoTemporal.cambios[0].completado = true;
+        this.pedidoTemporal.cambios[0].fechaDespacho = new Date().getTime();
+        this.pedidoService.editarPedido(this.pedidoTemporal);
+        return;
+      }
       if(this.pedidoTemporal.guia){
         this.pedidoTemporal.estado = estado;
         this.pedidoTemporal.completado = true;
@@ -134,7 +149,6 @@ export class MisPedidosComponent implements OnInit, OnDestroy, OnChanges {
       this.pedidoService.editarPedido(this.pedidoTemporal);
       return; 
     }
-
     this.pedidoTemporal.estado = estado;
     this.pedidoTemporal.completado = false;
     this.pedidoService.editarPedido(this.pedidoTemporal);

@@ -106,6 +106,8 @@
                 <div *ngIf="pedidoTemporal.isCambio">
                     <h5>Ultimo cambio</h5>
                     <p><strong>Fecha del cambio: </strong> {{ pedidoTemporal.cambios[0].fechaCambio | date: 'dd/MM/yyyy' }}</p>
+                    <p><strong>Fecha de despacho:</strong> {{ pedidoTemporal.cambios[0].fechaDespacho | date: 'dd/MM/yyyy' }}</p>
+                    <p><strong>Guia de Cambio:</strong> {{ pedidoTemporal.cambios[0].guia }} </p>
                     <app-lista-prendas [isCambio]="pedidoTemporal.isCambio" [pedido]="pedidoTemporal"></app-lista-prendas>
                 </div>
                 
@@ -114,8 +116,8 @@
             <div class="modal-footer">
                 <a (click)="cambiarEstadoPedido(4)" *ngIf="pedidoTemporal.estado == 3" class="waves-effect waves-green btn-flat green-text">Empacado</a>
                 <a (click)="cambiarEstadoPedido(5)" *ngIf="pedidoTemporal.estado == 4" class="modal-close waves-effect waves-green btn-flat green-text">Despachado</a>
-                <a (click)="cambiarEstadoPedido(6)" *ngIf="pedidoTemporal.estado == 5" class="modal-close waves-effect waves-red btn-flat red-text">Devolucion</a>
-                <a [routerLink]="['/cambio', pedidoTemporal.id]" *ngIf="pedidoTemporal.estado == 5" class="modal-close waves-effect waves-red btn-flat red-text">Cambio</a>
+                <a (click)="cambiarEstadoPedido(6)" *ngIf="(pedidoTemporal.estado == 5) && !pedidoTemporal.isCambio" class="modal-close waves-effect waves-red btn-flat red-text">Devolucion</a>
+                <a [routerLink]="['/cambio', pedidoTemporal.id]" *ngIf="pedidoTemporal.estado == 5" class="modal-close waves-effect waves-red btn-flat">Cambio</a>
                 <a (click)="cambiarEstadoPedido(4)" *ngIf="pedidoTemporal.estado >= 5" class="modal-close waves-effect waves-green btn-flat">Cambiar estado</a>
                 <a class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
             </div>
