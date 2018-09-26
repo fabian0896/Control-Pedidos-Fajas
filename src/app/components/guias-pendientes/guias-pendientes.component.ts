@@ -30,11 +30,11 @@ export class GuiasPendientesComponent implements OnInit, OnDestroy {
       $('.modal').modal();
     });
 
-    this.pedidosTodosSub = this.pedidosService.getPedidosGuiasPendientesTodos().subscribe((data:any)=>{
+    this.pedidosTodosSub = this.pedidosService.getPedidosGuiasPendientesTodosV2().subscribe((data:any)=>{
       this.pedidosTodos = data;
     });
 
-    this.misPedidosSub = this.pedidosService.getMisPedidosGuiasPendientes().subscribe((data:any)=>{
+    this.misPedidosSub = this.pedidosService.getMisPedidosGuiasPendientesV2().subscribe((data:any)=>{
       this.misPedidos = data;
     });
 
@@ -57,7 +57,12 @@ export class GuiasPendientesComponent implements OnInit, OnDestroy {
   }
 
   actualizarGuia(){
-    this.pedidoTemporal.guia = this.numeroGuia;
+    if(this.pedidoTemporal.isCambio){
+      this.pedidoTemporal.cambios[0].guia = this.numeroGuia;
+    } else {
+      this.pedidoTemporal.guia = this.numeroGuia;
+    } 
+    this.pedidoTemporal.conGuia = true;
     this.pedidosService.editarPedido(this.pedidoTemporal);
   }
 

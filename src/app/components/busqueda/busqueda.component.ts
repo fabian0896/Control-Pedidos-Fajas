@@ -23,7 +23,7 @@ export class BusquedaComponent implements OnInit {
   pedidos:Pedido[];
 
   pedidoTemporal;
-  guiaTemporal;
+  guiaTemporal:string = "";
   nombreVendedorTemporal;
   totalPrendasTemporal;
   estadoPedidoTemporal
@@ -122,6 +122,7 @@ export class BusquedaComponent implements OnInit {
     } else {
       this.pedidoTemporal.guia = this.guiaTemporal;
     }
+    this.pedidoTemporal.conGuia = true;
     this.pedidoService.editarPedido(this.pedidoTemporal);
     this.guiaTemporal = "";
   }

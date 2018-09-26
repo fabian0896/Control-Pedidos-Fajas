@@ -27,7 +27,7 @@ export class MisPedidosComponent implements OnInit, OnDestroy, OnChanges {
   nombreVendedorTemporal:string;
   estadoPedidoTemporal:string;
   totalPrendasTemporal:string;
-  guiaTemporal:string;
+  guiaTemporal:string = "";
 
   nombreUsuario:string = "";
 
@@ -112,6 +112,7 @@ export class MisPedidosComponent implements OnInit, OnDestroy, OnChanges {
     } else {
       this.pedidoTemporal.guia = this.guiaTemporal;
     }
+    this.pedidoTemporal.conGuia = true;
     this.pedidoService.editarPedido(this.pedidoTemporal);
     this.guiaTemporal = "";
   }
@@ -161,9 +162,13 @@ export class MisPedidosComponent implements OnInit, OnDestroy, OnChanges {
     /* this.pedidoTemporal = this.pedidos[idx];
     this.guiaTemporal = this.pedidos[idx].guia; */
     this.pedidoTemporal = info.pedido;
-    this.guiaTemporal = info.pedido.guia;
+    //this.guiaTemporal = info.pedido.guia;
     $('#modal1').modal('open');
     
+  }
+
+  goToCambio(){
+    this.router.navigate(['/cambio', this.pedidoTemporal.id, 'mispedidos']);
   }
 
 }

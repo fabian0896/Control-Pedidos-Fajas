@@ -20,13 +20,17 @@
       </div>
   </div>
 </div>
+
+
+
+
 <div class="row">
   <div class="col s12">
       <div id="misguias">
 
           <div *ngFor="let pedido of misPedidos" class="card">
                 <div class="card-content">
-                  <span (click)="copyToClipboard(pedido.nombre)" class="card-title mb"> <strong> {{ pedido.nombre }} </strong></span>
+                  <span (click)="copyToClipboard(pedido.nombre)" class="card-title mb"> <strong> {{ pedido.nombre }} {{ pedido.medioPago == 'Contra Entrega'? '(Contra Entrega)': '' }} </strong></span>
                   <div class="row">
                     <div class="col s6">
                         <div (click)="copyToClipboard(pedido.telefono)" class="mb">
@@ -41,7 +45,8 @@
                             <p>{{ pedido.direccion }}</p>
                         </div>
                         <div (click)="copyToClipboard(pedido.valorTotal)"  class="mb">
-                            <p>{{ pedido.valorTotal | currency:'COP':'symbol-narrow':'.0-0' }}</p>
+                            <p *ngIf="!pedido.isCambio">{{ pedido.valorTotal | currency:'COP':'symbol-narrow':'.0-0' }}</p>
+                            <p *ngIf="pedido.isCambio">{{ pedido.cambios[0].valor | currency:'COP':'symbol-narrow':'.0-0' }}</p>
                         </div>
                     </div>
                   </div>
@@ -54,33 +59,40 @@
 
       
       </div>
+
+
+
+
+
+
       <div id="todas">
          
             <div *ngFor="let pedido of pedidosTodos" class="card">
                     <div class="card-content">
-                      <span (click)="copyToClipboard(pedido.nombre)" class="card-title mb"> <strong> {{ pedido.nombre }} </strong></span>
-                      <div class="row">
-                        <div class="col s6">
-                            <div (click)="copyToClipboard(pedido.telefono)" class="mb">
-                                <p>{{ pedido.telefono }}</p>
+                            <span (click)="copyToClipboard(pedido.nombre)" class="card-title mb"> <strong> {{ pedido.nombre }} {{ pedido.medioPago == 'Contra Entrega'? '(Contra Entrega)': '' }} </strong></span>
+                            <div class="row">
+                              <div class="col s6">
+                                  <div (click)="copyToClipboard(pedido.telefono)" class="mb">
+                                      <p>{{ pedido.telefono }}</p>
+                                  </div>
+                                  <div (click)="copyToClipboard(pedido.ciudad)" class="mb">
+                                      <p>{{ pedido.ciudad }}</p>
+                                  </div>
+                              </div>
+                              <div class="col s6">
+                                  <div (click)="copyToClipboard(pedido.direccion)" class="mb">
+                                      <p>{{ pedido.direccion }}</p>
+                                  </div>
+                                  <div (click)="copyToClipboard(pedido.valorTotal)"  class="mb">
+                                      <p *ngIf="!pedido.isCambio">{{ pedido.valorTotal | currency:'COP':'symbol-narrow':'.0-0' }}</p>
+                                      <p *ngIf="pedido.isCambio">{{ pedido.cambios[0].valor | currency:'COP':'symbol-narrow':'.0-0' }}</p>
+                                  </div>
+                              </div>
                             </div>
-                            <div (click)="copyToClipboard(pedido.ciudad)" class="mb">
-                                <p>{{ pedido.ciudad }}</p>
-                            </div>
-                        </div>
-                        <div class="col s6">
-                            <div (click)="copyToClipboard(pedido.direccion)" class="mb">
-                                <p>{{ pedido.direccion }}</p>
-                            </div>
-                            <div (click)="copyToClipboard(pedido.valorTotal)"  class="mb">
-                                <p>{{ pedido.valorTotal | currency:'COP':'symbol-narrow':'.0-0' }}</p>
-                            </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="card-action">                       
-                        <a (click)="editarGuia(pedido)">Agregar Guia</a>         
-                    </div>
+                          </div>
+                          <div class="card-action">                       
+                              <a (click)="editarGuia(pedido)">Agregar Guia</a>         
+                          </div>
                   </div>
 
 
@@ -88,6 +100,11 @@
   </div>
 </div>
 
+
+
+
+
+<!-- MODAL -->
 
 <div id="modal1" class="modal">
     <div *ngIf="pedidoTemporal">      

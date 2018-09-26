@@ -30,6 +30,7 @@ export const routes: Routes = [
     { path: 'detalles', component: DetallesPedidoComponent, canActivate: [AuthGuardGuard] },
     { path: 'detalles/:id', component: DetallesPedidoComponent, canActivate: [AuthGuardGuard] },
     { path: 'cambio/:id', component: CambioComponent, canActivate: [AuthGuardGuard] },
+    { path: 'cambio/:id/:ruta', component: CambioComponent, canActivate: [AuthGuardGuard] },
     { path: '**', pathMatch: 'full', redirectTo: 'home' },
 ];
 

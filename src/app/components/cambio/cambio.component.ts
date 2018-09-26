@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Prenda } from '../../models/prenda';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { AngularFirestore } from 'angularfire2/firestore';
@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Pedido } from '../../models/pedido';
 import { Cambio } from '../../models/cambio';
 import { PedidosService } from '../../services/pedidos.service';
+import { Subscription } from 'rxjs';
 
 declare var $:any;
 declare var M:any;
@@ -16,7 +17,7 @@ declare var M:any;
   templateUrl: './cambio.component.html',
   styleUrls: ['./cambio.component.css']
 })
-export class CambioComponent implements OnInit {
+export class CambioComponent implements OnInit, OnDestroy {
 
   prendas:Prenda[] = [];
 
@@ -27,15 +28,16 @@ export class CambioComponent implements OnInit {
 
   pagina:number =  1;
 
- permitirCambio:boolean = false;
-
+  permitirCambio:boolean = false;
+  ruta:string = "mispedidos";
   ultimoDespacho;
-  
+  sub:Subscription;
   pedido:Pedido;
 
   constructor(private ps:PedidosService, private db:AngularFirestore, private router:Router, private activeRouter:ActivatedRoute) { 
 
-    this.activeRouter.params.pipe(take(1),switchMap((params:any) =>{
+    this.sub =  this.activeRouter.params.pipe(take(1),switchMap((params:any) =>{
+      this.ruta = params.ruta;
       return this.db.collection('pedidos').doc(params.id).valueChanges();
     })).subscribe((pedido:any)=>{
       this.pedido = pedido;
@@ -55,9 +57,11 @@ export class CambioComponent implements OnInit {
 
       setTimeout(()=>{
         $('.collapsible').collapsible();
-      }, 300);
+        $('select').formSelect();
+      }, 200);
       
     });
+    
     //--------------
     
     this.db.collection('prendas').valueChanges().pipe(take(1)).subscribe((prendas:any) =>{
@@ -76,6 +80,7 @@ export class CambioComponent implements OnInit {
     $(document).ready(function(){
       $('.collapsible').collapsible();
       $('select').formSelect();
+      $('.fixed-action-btn').floatingActionButton();
     });
 
 
@@ -87,13 +92,17 @@ export class CambioComponent implements OnInit {
     });
 
     this.formulario_2 = new FormGroup({
-      valor: new FormControl(''),
-      motivo: new FormControl('', Validators.required)
+      valor: new FormControl('0'),
+      motivo: new FormControl('', Validators.required),
+      flete: new FormControl(''),
     });
 
 
   }
 
+  ngOnDestroy(){
+    this.sub.unsubscribe();
+  }
 
   ngOnInit() {
   }
@@ -165,18 +174,26 @@ export class CambioComponent implements OnInit {
 
   guardarCambio(){
     this.cambiarPagina(1);
-    this.formulario_2.reset();
     let valor = this.formulario_2.controls.valor.value;
     let cambio:Cambio =  new Cambio(new Date().getTime(), this.prendas, this.formulario_2.controls.motivo.value);
+    cambio.cancelaFlete = this.formulario_2.controls.flete.value;
     if(valor){
       cambio.valor = valor;
     }
+    
     this.pedido.isCambio = true;
     this.pedido.estado = 1;
     this.pedido.fecha = cambio.fechaCambio;
     this.pedido.completado = false;
+    this.pedido.conGuia = false;
     this.pedido.cambios.unshift(cambio);
     this.ps.editarPedido(this.pedido);
+    this.formulario_2.reset();
+  }
+
+
+  goBack(){
+    this.router.navigate([this.ruta]);
   }
 
 

@@ -127,16 +127,33 @@ export class PedidosService {
     return this.afs.collection(this.CARPETA, ref => ref.where('completado','==', false).where('guia','==','').orderBy('fecha','asc')).valueChanges();
   }
 
+  getPedidosGuiasPendientesTodosV2(){
+    return this.afs.collection(this.CARPETA, ref => ref.where('conGuia','==', false ).orderBy('fecha','asc')).valueChanges();
+  }
+
   getMisPedidosGuiasPendientes(){
     return this.afAuth.authState.pipe(switchMap(usuario => {
       return this.afs.collection(this.CARPETA, ref => ref.where('vendedor','==', usuario.uid ).where('completado','==', false).where('guia','==','').orderBy('fechaVenta','asc').limit(20)).valueChanges();
     }));
   }
 
+  getMisPedidosGuiasPendientesV2(){
+    return this.afAuth.authState.pipe(switchMap(usuario => {
+      return this.afs.collection(this.CARPETA, ref => ref.where('vendedor','==', usuario.uid ).where('completado','==', false).where('conGuia','==', false).orderBy('fecha','asc').limit(20)).valueChanges();
+    }));
+  }
+
+
 
   getPedidosFacturasPendientes(){
     return this.afs.collection(this.CARPETA, ref => ref.where('factura','==','').orderBy('fechaVenta','asc')).valueChanges();
   }
+
+
+
+  
+
+
 
   resetLimiteConsulta(){
     this.limiteConsultaTodos = this.limiteConsultaDefault;

@@ -7,6 +7,7 @@ export class Cambio {
     valor:number;
     motivo:string;
     guia:string;
+    cancelaFlete:boolean;
     completado:boolean;
     constructor(fechaCambio, prendas:Prenda[], motivo:string, valor = 0){
         this.fechaCambio = fechaCambio;
@@ -15,5 +16,6 @@ export class Cambio {
         this.valor = valor;
         this.guia = "";
         this.completado = false;
+        this.cancelaFlete = false;
     }
 }

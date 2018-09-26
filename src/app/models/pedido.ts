@@ -23,6 +23,7 @@ export class Pedido{
     algoliaId:string;
     cambios:Cambio[];
     isCambio:boolean;
+    conGuia:boolean;
     constructor( nombre:string="", 
                  telefono:string="",
                  ciudad:string="",
@@ -50,6 +51,7 @@ export class Pedido{
         this.factura = "";
         this.isCambio = false;
         this.cambios = [];
+        this.conGuia = false;
         if(estado){
             this.estado = estado;
         } else {

@@ -54,7 +54,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.permiso = this.permisos.getPermisos();
 
 
-        this.guiasSub =  this.ps.getMisPedidosGuiasPendientes().subscribe(data =>{
+        this.guiasSub =  this.ps.getMisPedidosGuiasPendientesV2().subscribe(data =>{
           if(data){
             this.guiasP = data.length;
             //console.log(this.guiasP);

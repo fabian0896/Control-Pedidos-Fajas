@@ -27,7 +27,7 @@ export class PedidosComponent implements OnInit, OnDestroy {
   nombreVendedorTemporal:string;
   estadoPedidoTemporal:string;
   totalPrendasTemporal:string;
-  guiaTemporal:string;
+  guiaTemporal:string = "";
 
   permiso:Promise<number>;
 
@@ -105,6 +105,7 @@ export class PedidosComponent implements OnInit, OnDestroy {
     } else {
       this.pedidoTemporal.guia = this.guiaTemporal;
     }
+    this.pedidoTemporal.conGuia = true;
     this.pedidoService.editarPedido(this.pedidoTemporal);
     this.guiaTemporal = "";
   }
@@ -154,7 +155,7 @@ export class PedidosComponent implements OnInit, OnDestroy {
     /* this.pedidoTemporal = this.pedidos[idx];
     this.guiaTemporal = this.pedidos[idx].guia; */
     this.pedidoTemporal = info.pedido;
-    this.guiaTemporal = info.pedido.guia;
+    //this.guiaTemporal = info.pedido.guia;
     $('#modal1').modal('open');
     
   }
