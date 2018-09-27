@@ -1,6 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { EstadistcasService } from '../../services/estadistcas.service';
 import { Observable, Subscription } from 'rxjs';
+import { PedidosService } from '../../services/pedidos.service';
+import { shareReplay } from 'rxjs/operators';
+
+
 
 @Component({
   selector: 'app-home',
@@ -13,15 +17,33 @@ export class HomeComponent implements OnInit,OnDestroy {
   datosMesesSub:Subscription;
   datosDias:any;
   datosMeses:any;
-  constructor(private estadisticas:EstadistcasService) {
+
+  pedidosPendientes:Observable<any>;
+  cambiosPendientes: Observable<any>;
+
+  emoji:string = "";
+
+  mesActual:string = '';
+  porcentaje:number = 0;
+
+  meses:string[] = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio',
+  'Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  
+  constructor(private estadisticas:EstadistcasService, private ps:PedidosService) {
     
     this.datosMesesSub = this.estadisticas.getEstadisticasMeses(new Date()).subscribe((data)=>{
       this.datosMeses = data;
+      this.porcentaje = this.calcularPorcentaje();
+      this.emoji = this.calcularEmogi(this.porcentaje);
     });  
     
     this.datosDiasSub = this.estadisticas.getEstadisticasSemana(new Date()).subscribe((data)=>{
         this.datosDias = data;
       });
+
+      this.pedidosPendientes = this.ps.getVentasPendientes(5).pipe(shareReplay(1));
+     this.cambiosPendientes = this.ps.getCambiosPendientes().pipe(shareReplay(1));
+
    }
 
   ngOnInit() {
@@ -30,6 +52,33 @@ export class HomeComponent implements OnInit,OnDestroy {
   ngOnDestroy(){
     this.datosMesesSub.unsubscribe();
     this.datosDiasSub.unsubscribe();
+  }
+
+  calcularPorcentaje(){
+    let mes_actual = this.datosMeses.meses[this.datosMeses.meses.length - 1];
+    this.mesActual = this.meses[mes_actual - 1];
+    let datos:{ventas:number, devoluciones:number} = this.datosMeses.datos[this.datosMeses.meses.length - 1];
+    if( (datos.ventas + datos.devoluciones) == 0 ){
+      return null;
+    }
+    return (datos.ventas * 100)/ (datos.ventas + datos.devoluciones);
+  }
+
+  calcularEmogi(porcent:number){
+      if(porcent > 90){
+        return 'em-clap'
+      }  
+      else if(porcent < 50){
+        return 'em--1'
+      } else if (porcent < 60 ){
+        return 'em-cry'
+      } else if( porcent < 70){
+        return ' em-anguished'
+      } else if (porcent < 80){
+        return 'em-face_with_raised_eyebrow'
+      } else if( porcent <= 90){
+        return 'em---1'
+      }
   }
 
 }

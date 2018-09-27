@@ -28,9 +28,9 @@
   <div class="col s12">
       <div id="misguias">
 
-          <div *ngFor="let pedido of misPedidos" class="card">
+          <div *ngFor="let pedido of misPedidos" class="card z-depth-2">
                 <div class="card-content">
-                  <span (click)="copyToClipboard(pedido.nombre)" class="card-title mb"> <strong> {{ pedido.nombre }} {{ pedido.medioPago == 'Contra Entrega'? '(Contra Entrega)': '' }} </strong></span>
+                  <span (click)="copyToClipboard(pedido.nombre)" class="card-title mb"> <strong> {{ pedido.nombre }} {{ pedido.medioPago == 'Contra Entrega' && !pedido.isCambio? '(Contra Entrega)': '' }} {{ pedido.isCambio? '(CAMBIO)':''}}  </strong></span>
                   <div class="row">
                     <div class="col s6">
                         <div (click)="copyToClipboard(pedido.telefono)" class="mb">
@@ -45,8 +45,10 @@
                             <p>{{ pedido.direccion }}</p>
                         </div>
                         <div (click)="copyToClipboard(pedido.valorTotal)"  class="mb">
-                            <p *ngIf="!pedido.isCambio">{{ pedido.valorTotal | currency:'COP':'symbol-narrow':'.0-0' }}</p>
-                            <p *ngIf="pedido.isCambio">{{ pedido.cambios[0].valor | currency:'COP':'symbol-narrow':'.0-0' }}</p>
+                                <p *ngIf="!pedido.isCambio && !(pedido.medioPago == 'Contra Entrega')">{{ 0 | currency:'COP':'symbol-narrow':'.0-0' }}</p>  
+                                <p *ngIf="!pedido.isCambio && (pedido.medioPago == 'Contra Entrega')">{{ pedido.valorTotal | currency:'COP':'symbol-narrow':'.0-0' }}</p>
+                                <p *ngIf="pedido.isCambio && !pedido.cambios[0].cancelaFlete">{{ pedido.cambios[0].valor | currency:'COP':'symbol-narrow':'.0-0' }}</p>
+                                <p *ngIf="pedido.isCambio && pedido.cambios[0].cancelaFlete">Cancela Flete</p>
                         </div>
                     </div>
                   </div>
@@ -67,9 +69,9 @@
 
       <div id="todas">
          
-            <div *ngFor="let pedido of pedidosTodos" class="card">
+            <div *ngFor="let pedido of pedidosTodos" class="card z-depth-2">
                     <div class="card-content">
-                            <span (click)="copyToClipboard(pedido.nombre)" class="card-title mb"> <strong> {{ pedido.nombre }} {{ pedido.medioPago == 'Contra Entrega'? '(Contra Entrega)': '' }} </strong></span>
+                            <span (click)="copyToClipboard(pedido.nombre)" class="card-title mb"> <strong> {{ pedido.nombre }} {{ pedido.medioPago == 'Contra Entrega' && !pedido.isCambio? '(Contra Entrega)': '' }} {{ pedido.isCambio? '(CAMBIO)':''}} </strong></span>
                             <div class="row">
                               <div class="col s6">
                                   <div (click)="copyToClipboard(pedido.telefono)" class="mb">
@@ -84,8 +86,10 @@
                                       <p>{{ pedido.direccion }}</p>
                                   </div>
                                   <div (click)="copyToClipboard(pedido.valorTotal)"  class="mb">
-                                      <p *ngIf="!pedido.isCambio">{{ pedido.valorTotal | currency:'COP':'symbol-narrow':'.0-0' }}</p>
-                                      <p *ngIf="pedido.isCambio">{{ pedido.cambios[0].valor | currency:'COP':'symbol-narrow':'.0-0' }}</p>
+                                    <p *ngIf="!pedido.isCambio && !(pedido.medioPago == 'Contra Entrega')">{{ 0 | currency:'COP':'symbol-narrow':'.0-0' }}</p>  
+                                    <p *ngIf="!pedido.isCambio && (pedido.medioPago == 'Contra Entrega')">{{ pedido.valorTotal | currency:'COP':'symbol-narrow':'.0-0' }}</p>
+                                    <p *ngIf="pedido.isCambio && !pedido.cancelaFlete">{{ pedido.cambios[0].valor | currency:'COP':'symbol-narrow':'.0-0' }}</p>
+                                    <p *ngIf="pedido.isCambio && pedido.cancelaFlete">Cancela Flete</p>
                                   </div>
                               </div>
                             </div>

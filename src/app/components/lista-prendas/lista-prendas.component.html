@@ -26,7 +26,7 @@
 
 
   <ul *ngIf="pedido && isCambio" class="collection">
-      <li *ngFor="let prenda of pedido.cambios[0].prendas; let i = index" [ngClass]="[ prenda.estado | colorEstadoPrenda ]" class="collection-item avatar">
+      <li *ngFor="let prenda of pedido.cambios[indice].prendas; let i = index" [ngClass]="[ prenda.estado | colorEstadoPrenda ]" class="collection-item avatar">
         
         <img [src]="prenda.imagen" alt="" class="circle">
         <span class="title">{{ prenda.nombre }} ({{ prenda.sku }})</span>

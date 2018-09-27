@@ -86,7 +86,7 @@
                     <a (click)="cambiarEstadoPedido(4)" *ngIf="pedidoTemporal.estado == 3" class="waves-effect waves-green btn-flat green-text">Empacado</a>
                     <a (click)="cambiarEstadoPedido(5)" *ngIf="pedidoTemporal.estado == 4" class="modal-close waves-effect waves-green btn-flat green-text">Despachado</a>
                     <a (click)="cambiarEstadoPedido(6)" *ngIf="(pedidoTemporal.estado == 5) && !pedidoTemporal.isCambio" class="modal-close waves-effect waves-red btn-flat red-text">Devolucion</a>
-                    <a [routerLink]="['/cambio', pedidoTemporal.id, 'busqueda']" *ngIf="pedidoTemporal.estado == 5" class="modal-close waves-effect waves-red btn-flat">Cambios</a>
+                    <a [routerLink]="['/cambio', pedidoTemporal.id, 'busqueda']" *ngIf="(pedidoTemporal.estado == 5) || pedidoTemporal.isCambio " class="modal-close waves-effect waves-red btn-flat">Cambios</a>
                     <a (click)="cambiarEstadoPedido(4)" *ngIf="pedidoTemporal.estado >= 5" class="modal-close waves-effect waves-green btn-flat">Cambiar estado</a>
                     <a class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
             </div>

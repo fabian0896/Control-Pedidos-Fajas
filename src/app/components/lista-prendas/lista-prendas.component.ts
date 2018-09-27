@@ -16,6 +16,7 @@ export class ListaPrendasComponent implements OnInit, OnChanges {
   @Input() editable:boolean = true;
   @Input() modificable:boolean = true;
   @Input() isCambio:boolean = false;
+  @Input() indice:number = 0;
   @Output() onCambio = new EventEmitter();
 
   constructor(private pedidoService:PedidosService) { 

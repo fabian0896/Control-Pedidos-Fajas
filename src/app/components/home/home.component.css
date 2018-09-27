@@ -1,0 +1,17 @@
+.estadistica{
+    text-align: center;
+}
+.enlinea{
+    display: inline;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+.emoji{
+    vertical-align: middle;
+    height: 40px;
+    width: 40px;
+}
+.contenedor-em{
+    text-align: center;
+    margin-bottom: 15px;
+}

@@ -114,9 +114,9 @@ export class PedidosService {
   }
 
 
-  getPendientesMisPedidos(){
+  getPendientesMisPedidos(limite:number = 20){
     return this.afAuth.authState.pipe(switchMap(usuario => {
-      return this.afs.collection(this.CARPETA, ref => ref.where('vendedor','==', usuario.uid ).where('completado','==', false).orderBy('fecha','asc').limit(20)).valueChanges();
+      return this.afs.collection(this.CARPETA, ref => ref.where('vendedor','==', usuario.uid ).where('completado','==', false).orderBy('fecha','asc').limit(limite)).valueChanges();
     }));
   }
 
@@ -150,9 +150,13 @@ export class PedidosService {
   }
 
 
-
+  getCambiosPendientes(limite:number = 5){
+    return this.afs.collection(this.CARPETA, ref => ref.where('isCambio', '==', true).where('completado','==', false).limit(limite)).valueChanges();
+  }
   
-
+  getVentasPendientes(limite:number = 5){
+    return this.afs.collection(this.CARPETA, ref => ref.where('isCambio', '==', false).where('completado','==', false).limit(limite)).valueChanges();
+  }
 
 
   resetLimiteConsulta(){

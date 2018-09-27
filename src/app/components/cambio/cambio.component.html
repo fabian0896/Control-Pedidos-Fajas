@@ -6,20 +6,24 @@
 </div>
 
 
-<h4>Agregar Cambio</h4>
+<h3>Agregar Cambio</h3>
 <hr>
 
 <!-- RESUMEN -->
 
-<div *ngIf="pedido" class="card-panel">
+<div *ngIf="pedido" class="card-panel z-depth-3">
   <h5>{{ pedido.nombre }}</h5>
   <p><strong>Fecha Venta:</strong>{{ pedido.fechaVenta | date: 'dd/MM/yyyy' }}</p>
   <p><strong>Fecha ultimo despacho:</strong> {{ ultimoDespacho | date: 'dd/MM/yyyy' }}</p>
   <p><strong>medio de Contacto:</strong> {{ pedido.medioVenta }} / {{ pedido.observaciones }}</p>
   <h5>Ultimas Prendas Despachadas:</h5>
-  <app-lista-prendas *ngIf="!pedido.isCambio" [pedido]="pedido" [modificable]="false"></app-lista-prendas>
-  <app-lista-prendas *ngIf="pedido.isCambio" [isCambio]="pedido.isCambio" [pedido]="pedido" [modificable]="false"></app-lista-prendas>
-  <p><strong>Valor cobrado: </strong> Pendiente</p>
+  <app-lista-prendas *ngIf="!idx" [pedido]="pedido" [modificable]="false"></app-lista-prendas>
+  <app-lista-prendas *ngIf="idx" [isCambio]="pedido.isCambio" [indice]="idx" [pedido]="pedido" [modificable]="false"></app-lista-prendas>
+  <div *ngIf="!pedido.cambios[0].completado">
+      <h5>Prenda Pendiente:</h5>
+      <app-lista-prendas [isCambio]="pedido.isCambio"  [pedido]="pedido" [modificable]="false"></app-lista-prendas>
+  </div>
+  
 </div>
 
 
@@ -29,7 +33,7 @@
 
 
 
-<div *ngIf="permitirCambio" class="card-panel">
+<div *ngIf="permitirCambio" class="card-panel z-depth-3">
   <h5 style="margin-bottom: 10px">Agregar Cambio</h5>
 
   <form *ngIf="pagina == 1" [formGroup]="formulario_1" (ngSubmit)="agregarPrenda(nombrePrenda.value)">
@@ -146,8 +150,8 @@
 <!-- RESUMEN DE CAMBIO -->
 
 
-<ul style="margin-bottom: 150px" *ngIf="pedido" class="collapsible">
-  <li *ngFor="let cambio of pedido.cambios">
+<ul style="margin-bottom: 150px" *ngIf="pedido" class="collapsible z-depth-3">
+  <li *ngFor="let cambio of pedido.cambios; let i = index">
     <div [ngClass]="{ 'light-green ' : cambio.completado, 'red': !cambio.completado }" class="collapsible-header lighten-4"><i
         class="material-icons">import_export</i>Cambio<strong> ({{cambio.fechaCambio | date: 'dd/MM/yyyy'}})</strong></div>
     <div class="collapsible-body">
@@ -155,11 +159,11 @@
       <p><strong>Fecha de despacho</strong>{{ cambio.fechaDespacho | date: 'dd/MM/yyyy' }}</p>
       <p><strong>Guia</strong> {{ cambio.guia }} </p>
       <p><strong>motivo:</strong> {{ cambio.motivo }} </p>
-      <app-lista-prendas [isCambio]="true" [pedido]="pedido" [modificable]="false"></app-lista-prendas>
+      <app-lista-prendas [isCambio]="true" [indice]="i" [pedido]="pedido" [modificable]="false"></app-lista-prendas>
     </div>
   </li>
   <li>
-    <div [ngClass]="{ 'light-green ' : pedido.completado, 'red': !pedido.completado }" class="collapsible-header lighten-4"><i
+    <div class="collapsible-header lighten-4 light-green"><i
         class="material-icons">shopping_cart</i>Venta<strong> ({{pedido.fechaVenta | date: 'dd/MM/yyyy'}})</strong></div>
     <div class="collapsible-body">
       <p><strong>Fecha del cambio:</strong>{{pedido.fechaVenta | date: 'dd/MM/yyyy'}}</p>

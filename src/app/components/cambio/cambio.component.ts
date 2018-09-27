@@ -34,6 +34,8 @@ export class CambioComponent implements OnInit, OnDestroy {
   sub:Subscription;
   pedido:Pedido;
 
+  idx:number = 0;
+
   constructor(private ps:PedidosService, private db:AngularFirestore, private router:Router, private activeRouter:ActivatedRoute) { 
 
     this.sub =  this.activeRouter.params.pipe(take(1),switchMap((params:any) =>{
@@ -43,9 +45,13 @@ export class CambioComponent implements OnInit, OnDestroy {
       this.pedido = pedido;
       this.ultimoDespacho = this.calcularUltimaFechaDespacho(this.pedido);
 
+      this.idx = this.calcularUltimoDespacho();
+
       if(this.pedido.isCambio){
         if(this.pedido.cambios[0].completado){
           this.permitirCambio = true;
+        } else {
+          this.permitirCambio = false;
         }
       } else {
         this.permitirCambio = true;
@@ -109,11 +115,12 @@ export class CambioComponent implements OnInit, OnDestroy {
 
   calcularUltimaFechaDespacho(pedido:Pedido){
     if(pedido.isCambio){
-      if(pedido.cambios[0].fechaDespacho){
-        return pedido.cambios[0].fechaDespacho;
-      } else {
-        return pedido.fechaDespacho;
+      for(let i in pedido.cambios){
+        if(pedido.cambios[i].completado){
+          return pedido.cambios[i].fechaDespacho;
+        }
       }
+      return pedido.fechaDespacho; 
     } else {
       return pedido.fechaDespacho;
     }
@@ -194,6 +201,21 @@ export class CambioComponent implements OnInit, OnDestroy {
 
   goBack(){
     this.router.navigate([this.ruta]);
+  }
+
+
+
+  calcularUltimoDespacho(){
+    if(this.pedido.isCambio){
+      for(let i in this.pedido.cambios){
+        if(this.pedido.cambios[i].completado){
+          return parseInt(i);
+        }
+      }
+      return null; // ningun cambio esta completado;
+    } else {
+      return null;
+    }
   }
 
 
