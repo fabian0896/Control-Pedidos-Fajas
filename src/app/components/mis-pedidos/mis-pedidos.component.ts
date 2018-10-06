@@ -32,7 +32,7 @@ export class MisPedidosComponent implements OnInit, OnDestroy, OnChanges {
 
   nombreUsuario:string = "";
 
-  permiso:Promise<any>
+  permiso:Promise<any>;
 
   todosLosPedidosSub:Subscription;
   pedidosPendientesSub: Subscription;
