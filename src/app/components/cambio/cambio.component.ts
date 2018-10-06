@@ -8,6 +8,7 @@ import { Pedido } from '../../models/pedido';
 import { Cambio } from '../../models/cambio';
 import { PedidosService } from '../../services/pedidos.service';
 import { Subscription } from 'rxjs';
+import { PermisosService } from '../../services/permisos.service';
 
 declare var $:any;
 declare var M:any;
@@ -33,10 +34,12 @@ export class CambioComponent implements OnInit, OnDestroy {
   ultimoDespacho;
   sub:Subscription;
   pedido:Pedido;
-
+  permiso:Promise<number>;
   idx:number = 0;
 
-  constructor(private ps:PedidosService, private db:AngularFirestore, private router:Router, private activeRouter:ActivatedRoute) { 
+  constructor(private permisoService:PermisosService ,private ps:PedidosService, private db:AngularFirestore, private router:Router, private activeRouter:ActivatedRoute) { 
+
+    this.permiso = this.permisoService.getPermisos();
 
     this.sub =  this.activeRouter.params.pipe(take(1),switchMap((params:any) =>{
       this.ruta = params.ruta;

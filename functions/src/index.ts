@@ -61,11 +61,9 @@ exports.creacionPedido = functions.firestore.document('pedidos/{pedidoId}').onCr
 });
 
 
-
-
-
 exports.eliminacionPedido = functions.firestore.document('pedidos/{pedidoId}').onDelete((snapshot,context)=>{
     //cuando se elimina un pedido
+
     const offsetTime:number = 18000000;
     const nuevo_pedido = snapshot.data();
     const fecha = new Date(nuevo_pedido.fechaVenta - offsetTime);

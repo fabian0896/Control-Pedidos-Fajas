@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PedidosService } from '../../services/pedidos.service';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { Pedido } from '../../models/pedido';
 declare var $:any;
 declare var M:any;
@@ -14,12 +14,20 @@ export class FacturasComponent implements OnInit, OnDestroy {
   pedidos:any[];
   pedidoTemporal;
   pedidosSub:Subscription;
-  
+  anularSub:Subscription;
+  porAnular:any[] = [];
   numeroFactura:string;
 
   constructor(private ps: PedidosService) { 
-    
-    
+
+    $(document).ready(function(){
+      $('.tabs').tabs();
+    });
+
+
+    this.anularSub = this.ps.getFacturasNoAnuladas().subscribe(data=>{
+      this.porAnular = data;
+    });
 
     this.pedidosSub = ps.getPedidosFacturasPendientes().subscribe(data => {
       this.pedidos = data;
@@ -47,6 +55,13 @@ export class FacturasComponent implements OnInit, OnDestroy {
     this.pedidoTemporal.factura = this.numeroFactura;
     this.ps.editarPedido(this.pedidoTemporal);
     this.numeroFactura = "";
+  }
+
+  anularFactura(idx:number){
+    console.log(idx);
+    this.porAnular[idx].factura = '';
+    this.ps.editarPedido(this.porAnular[idx]);
+    M.toast({html: 'Se anuló la Guia'});
   }
 
 

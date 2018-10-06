@@ -17,52 +17,95 @@
   </div>
  
 
-<h4>Facturas Pendientes</h4>
-<hr>
 
-<div class="card" *ngFor="let pedido of pedidos">
-    <div class="card-content">
-      <div class="row">
-        <div class="col s12 m8">
-          <span class="card-title"><strong>{{ pedido.nombre}}</strong></span>
-        </div>
-        <div class="col s12 m4">
-          <span class="card-title" ><strong>Total:</strong> {{ pedido.valorTotal | currency:'COP':'symbol-narrow':'.0-0'}} </span>
-        </div>
-      </div>
-      
-      
-      
-      <table class="centered striped">
-          <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Ref</th>
-                <th>Cantidad</th>
-                <th>Valor</th>
-                <th>Sub Total</th>
-            </tr>
-          </thead>
-  
-          <tbody>
-            
-            <tr *ngFor="let prenda of pedido.prendas">
-              <td>{{ prenda.nombre }}</td>
-              <td>{{ prenda.sku }}</td>
-              <td>{{ prenda.cantidad }}</td>
-              <td>{{ prenda.valor | currency:'COP':'symbol-narrow':'.0-0' }}</td>
-              <td>{{ (prenda.valor * prenda.cantidad) | currency:'COP':'symbol-narrow':'.0-0' }}</td>
-            </tr>
-             
-            
-          </tbody>
-        </table>
+  <h4>Facturas</h4>
+  <hr>
 
+<!-- TABS -->
+
+<div class="row">
+    <div class="col s12">
+      <ul class="tabs">
+        <li class="tab col s6"><a href="#pendientes">Pendiantes</a></li>
+        <li class="tab col s6"><a href="#anular">Anular...</a></li>
+      </ul>
+    </div>
+    <div id="pendientes" class="col s12">
+      <div class="card" *ngFor="let pedido of pedidos">
+        <div class="card-content">
+          <div class="row">
+            <div class="col s12 m8">
+              <span class="card-title"><strong>{{ pedido.nombre}} {{ pedido.estado == 5? '(No Imprimir)': '' }}</strong></span>
+            </div>
+            <div class="col s12 m4">
+              <span class="card-title" ><strong>Total:</strong> {{ pedido.valorTotal | currency:'COP':'symbol-narrow':'.0-0'}} </span>
+            </div>
+          </div>
+          
+          
+          
+          <table class="centered striped">
+              <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Ref</th>
+                    <th>Cantidad</th>
+                    <th>Valor</th>
+                    <th>Sub Total</th>
+                </tr>
+              </thead>
+      
+              <tbody>
+                
+                <tr *ngFor="let prenda of pedido.prendas">
+                  <td>{{ prenda.nombre }}</td>
+                  <td>{{ prenda.sku }}</td>
+                  <td>{{ prenda.cantidad }}</td>
+                  <td>{{ prenda.valor | currency:'COP':'symbol-narrow':'.0-0' }}</td>
+                  <td>{{ (prenda.valor * prenda.cantidad) | currency:'COP':'symbol-narrow':'.0-0' }}</td>
+                </tr>
+                 
+                
+              </tbody>
+            </table>
+    
+    
+        </div>
+        <div class="card-action">
+          <a (click)="abrirModal(pedido)">Agregar Factura</a>
+        </div>
+    </div>
+    
+    <div *ngIf="pedidos?.length == 0" style="text-align: center; margin-top: 20px">
+      <h4 class="enlinea"  >No hay facturas pendientes </h4><i  class="em em---1 emoji"></i>
+    </div>
 
     </div>
-    <div class="card-action">
-      <a (click)="abrirModal(pedido)">Agregar Factura</a>
+
+
+
+    <div id="anular" class="col s12" >
+
+      <ul *ngIf="porAnular.length > 0" class="collection">
+        <li class="collection-item avatar" *ngFor="let pedido of porAnular; let i = index">
+          <i class="material-icons circle">folder</i>
+          <span class="title">{{ pedido.nombre }}</span>
+          <p>Factura numero:<br>
+             {{ pedido.factura }}
+          </p>
+          <a style="cursor: pointer" (click)="anularFactura(i)" class="secondary-content"><i class="material-icons">close</i></a>
+        </li>
+      </ul>
+
+      <div *ngIf="porAnular?.length == 0" style="text-align: center; margin-top: 20px">
+        <h4 class="enlinea"  >No hay facturas por anular </h4><i  class="em em-grin emoji"></i>
+      </div>
+  
     </div>
 </div>
 
-<h4 class="center-aling" *ngIf="pedidos?.length == 0" >No hay facturas pendientes :)</h4>
+
+
+
+
+

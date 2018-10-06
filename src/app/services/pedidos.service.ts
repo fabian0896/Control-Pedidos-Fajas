@@ -3,7 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument,
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Pedido } from '../models/pedido';
 import { Observable, Subscription } from 'rxjs';
-import { map, switchMap, take } from "rxjs/operators";
+import { map, switchMap, take, shareReplay } from "rxjs/operators";
 import { AgoliaService } from './agolia.service';
 
 
@@ -146,7 +146,19 @@ export class PedidosService {
 
 
   getPedidosFacturasPendientes(){
-    return this.afs.collection(this.CARPETA, ref => ref.where('factura','==','').orderBy('fechaVenta','asc')).valueChanges();
+    return this.afs.collection(this.CARPETA, ref => ref.where('factura','==','').orderBy('fecha','asc')).valueChanges().pipe(map((res:any)=>{
+      let temp:any[] = [];
+      for(let pedido of res){
+        if(pedido.estado < 6){
+          temp.push(pedido);
+        }
+      }
+      return temp;
+    }));
+  }
+
+  getFacturasNoAnuladas(){
+    return this.afs.collection(this.CARPETA, ref => ref.where('estado', '==', 6).where('factura','>', '').orderBy('factura','asc')).valueChanges().pipe(shareReplay(1));
   }
 
 

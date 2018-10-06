@@ -5,6 +5,7 @@ import { Pedido } from '../../models/pedido';
 import { Subscription } from 'rxjs';
 import { Prenda } from '../../models/prenda';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { PermisosService } from '../../services/permisos.service';
 declare var $:any;
 declare var M:any;
 
@@ -31,6 +32,8 @@ export class MisPedidosComponent implements OnInit, OnDestroy, OnChanges {
 
   nombreUsuario:string = "";
 
+  permiso:Promise<any>
+
   todosLosPedidosSub:Subscription;
   pedidosPendientesSub: Subscription;
   pedidosCompletadosSub: Subscription;
@@ -39,7 +42,10 @@ export class MisPedidosComponent implements OnInit, OnDestroy, OnChanges {
   mostrarVerMasCompletados: boolean = true;
   mostrarVerMasTodos: boolean = true;
 
-  constructor(private router:Router, private pedidoService: PedidosService, private auth: AngularFireAuth) {
+  constructor(private permisosServices:PermisosService ,private router:Router, private pedidoService: PedidosService, private auth: AngularFireAuth) {
+    
+    this.permiso = this.permisosServices.getPermisos();
+    
     $(document).ready(function(){
       $('.tabs').tabs();
       $('.modal').modal();

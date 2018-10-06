@@ -46,7 +46,7 @@ export class PermisosService {
 
 
 
-  determinarCargo(cargo:string){
+  private determinarCargo(cargo:string){
     let numero: number = 0;
       if(cargo == 'administrador'){
         numero = 4;

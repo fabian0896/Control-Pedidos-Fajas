@@ -82,14 +82,21 @@ export class EstadistcasService {
 
 
       } else if(resultados.length == 1) {
-        for(let i = (dia-4); i <= dia; i++ ){
-          if(resultados[0][i]){
-            temp.push(resultados[0][i]);
-          } else{
-            temp.push(porDefecto);
+        if(!resultados[0]){
+          for(let i = 0; i < 5; i++){
+            temp.push({ventas: 0, devoluciones: 0});
           }
-          dias.push(i);
+        } else {
+          for(let i = (dia-4); i <= dia; i++ ){
+            if(resultados[0][i]){
+              temp.push(resultados[0][i]);
+            } else{
+              temp.push(porDefecto);
+            }
+            dias.push(i);
+          }
         }
+        
       }
 
       //console.log({ dias: dias, datos: temp });

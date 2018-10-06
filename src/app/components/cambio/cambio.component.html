@@ -19,11 +19,12 @@
   <h5>Ultimas Prendas Despachadas:</h5>
   <app-lista-prendas *ngIf="!idx" [pedido]="pedido" [modificable]="false"></app-lista-prendas>
   <app-lista-prendas *ngIf="idx" [isCambio]="pedido.isCambio" [indice]="idx" [pedido]="pedido" [modificable]="false"></app-lista-prendas>
-  <div *ngIf="!pedido.cambios[0].completado">
-      <h5>Prenda Pendiente:</h5>
-      <app-lista-prendas [isCambio]="pedido.isCambio"  [pedido]="pedido" [modificable]="false"></app-lista-prendas>
+  <div *ngIf="pedido.isCambio">
+      <div *ngIf="!pedido.cambios[0].completado">
+          <h5>Prenda Pendiente:</h5>
+          <app-lista-prendas [isCambio]="pedido.isCambio"  [pedido]="pedido" [modificable]="false"></app-lista-prendas>
+      </div>
   </div>
-  
 </div>
 
 
@@ -33,7 +34,7 @@
 
 
 
-<div *ngIf="permitirCambio" class="card-panel z-depth-3">
+<div *ngIf="permitirCambio && ((permiso | async) >= 3)" class="card-panel z-depth-3">
   <h5 style="margin-bottom: 10px">Agregar Cambio</h5>
 
   <form *ngIf="pagina == 1" [formGroup]="formulario_1" (ngSubmit)="agregarPrenda(nombrePrenda.value)">
