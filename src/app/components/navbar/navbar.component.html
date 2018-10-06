@@ -27,7 +27,7 @@
   
       <li class="sidenav-close"><a [routerLink]="['/home']"><i class="material-icons">home</i>Inicio</a></li>
       <li class="sidenav-close"><a [routerLink]="['/prendas']"><i class="material-icons">accessibility</i>Prendas</a></li>
-      <li *ngIf="(permiso | async) >= 2" class="sidenav-close"><a [routerLink]="['/facturas']"><i class="material-icons">local_grocery_store</i>Facturas<span *ngIf="facturasP" class="new badge blue" data-badge-caption="">{{ facturasP }}</span></a></li>
+      <li *ngIf="(permiso | async) >= 2" class="sidenav-close"><a [routerLink]="['/facturas']"><i class="material-icons">local_grocery_store</i>Facturas<span *ngIf="facturasP || facturasPorAnular" class="new badge blue" data-badge-caption="">{{ facturasP + facturasPorAnular}}</span></a></li>
       <li *ngIf="(permiso | async) >= 3" class="sidenav-close"><a [routerLink]="['/guias']"><i class="material-icons">local_airport</i>Guias<span *ngIf="guiasP" class="new badge blue" data-badge-caption="">{{ guiasP }}</span></a></li>
       <li class="sidenav-close"><a [routerLink]="['/prendaspendientes']"><i class="material-icons">view_list</i>Prendas Pen<span *ngIf="prendasP" class="new badge blue" data-badge-caption="">{{ prendasP }}</span></a></li>
       <li class="sidenav-close"><a [routerLink]="['/busqueda']"><i class="material-icons">search</i>Busqueda</a></li>

@@ -58,10 +58,9 @@ export class FacturasComponent implements OnInit, OnDestroy {
   }
 
   anularFactura(idx:number){
-    console.log(idx);
     this.porAnular[idx].factura = '';
     this.ps.editarPedido(this.porAnular[idx]);
-    M.toast({html: 'Se anuló la Guia'});
+    M.toast({html: 'Se anuló la factura'});
   }
 
 

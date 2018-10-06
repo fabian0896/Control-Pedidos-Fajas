@@ -26,10 +26,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
   facturasP : number;
   prendasP: number = 0;;
   pedidosP: number;
+  facturasPorAnular:number = 0;;
 
   guiasSub: Subscription;
   facturasSub:Subscription;
   prendasSub:Subscription;
+  facturasPoAnularSub:Subscription;
 
   constructor(public afAuth: AngularFireAuth, 
               public router: Router, 
@@ -101,6 +103,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
           }
         }));
 
+        this.facturasPoAnularSub = this.ps.getFacturasNoAnuladas().subscribe(facturas => {
+          this.facturasPorAnular = facturas.length;
+        });
+
       }
 
     });
@@ -111,6 +117,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.prendasSub.unsubscribe();
     this.facturasSub.unsubscribe();
     this.guiasSub.unsubscribe();
+    this.facturasPoAnularSub.unsubscribe();
   }
 
   ngOnInit() {
@@ -125,6 +132,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.prendasSub.unsubscribe();
     this.facturasSub.unsubscribe();
     this.guiasSub.unsubscribe();
+    this.facturasPoAnularSub.unsubscribe();
     this.usuario = null;
     this.permiso = null;
     this.afAuth.auth.signOut();

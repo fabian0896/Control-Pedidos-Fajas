@@ -66,7 +66,7 @@ export class PrendasComponent implements OnInit {
   }
 
   comprobaciones(){
-    console.log(this.formulario);
+    //console.log(this.formulario);
     if(!this.formulario.valid){
       M.toast({html: 'es necesario llenar todos los campos'});
       this.reset();
@@ -131,7 +131,7 @@ export class PrendasComponent implements OnInit {
     this.archivo = evento.target.files[0];
     let reader = new FileReader();
     reader.onload = (e:any)=>{
-      console.log(e.target);
+      //console.log(e.target);
       this.vistaPrevia = e.target.result;
     }
     reader.readAsDataURL(this.archivo);
