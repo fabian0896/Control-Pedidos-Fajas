@@ -35,7 +35,9 @@
     </div>
     <div id="pendientes" class="col s12">
         <app-pedido *ngFor="let pedido of pedidosPendientes; let i = index" [editable]="(permiso | async) >= 3" [pedido]="pedido" (onDetalles)="verDetalles(i, $event)"></app-pedido>
-        <h4 *ngIf="pedidosPendientes?.length == 0" class="center-align" >No hay pedidos pendientes :)</h4>
+        <div *ngIf="pedidosPendientes?.length == 0" style="text-align: center; margin-top: 20px">
+            <h4 class="enlinea"  >No hay pedidos pendientes</h4><i  class="em em-grin emoji"></i>
+          </div>
     </div>
     <div id="completados" class="col s12">
         <app-pedido *ngFor="let pedido of pedidosCompletados; let i = index" [editable]="(permiso | async) >= 3" [pedido]="pedido" (onDetalles)="verDetalles(i, $event)"></app-pedido>

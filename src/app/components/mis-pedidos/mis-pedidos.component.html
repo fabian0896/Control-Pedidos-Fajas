@@ -31,11 +31,13 @@
         <app-pedido *ngFor="let pedido of pedidos; let i = index" [pedido]="pedido" (onDetalles)="verDetalles(i, $event)"></app-pedido>
         <div *ngIf="mostrarVerMasTodos" class="center-align"><a style="cursor: pointer;" (click)="mostrarMasTodos()">Mostrar
                 mas...</a></div>
-         <h4 *ngIf="pedidos?.length == 0" class="center-align" >No hay pedidos</h4>       
+         <h4 *ngIf="pedidos?.length == 0" class="center-align" >No hay pedidos</h4>     
     </div>
     <div id="pendientes" class="col s12">
         <app-pedido *ngFor="let pedido of pedidosPendientes; let i = index" [pedido]="pedido" (onDetalles)="verDetalles(i, $event)"></app-pedido>
-        <h4 *ngIf="pedidosPendientes?.length == 0" class="center-align" >No hay pedidos pendientes :)</h4>
+        <div *ngIf="pedidosPendientes?.length == 0" style="text-align: center; margin-top: 20px">
+            <h4 class="enlinea"  >No hay pedidos pendientes</h4><i  class="em em-grin emoji"></i>
+        </div>
     </div>
     <div id="completados" class="col s12">
         <app-pedido *ngFor="let pedido of pedidosCompletados; let i = index" [pedido]="pedido" (onDetalles)="verDetalles(i, $event)"></app-pedido>

@@ -58,7 +58,7 @@ export class HomeComponent implements OnInit,OnDestroy {
     let mes_actual = this.datosMeses.meses[this.datosMeses.meses.length - 1];
     this.mesActual = this.meses[mes_actual - 1];
     let datos:{ventas:number, devoluciones:number} = this.datosMeses.datos[this.datosMeses.meses.length - 1];
-    if( (datos.ventas + datos.devoluciones) == 0 ){
+    if( (datos.ventas + datos.devoluciones) < 10 ){
       return null;
     }
     return (datos.ventas * 100)/ (datos.ventas + datos.devoluciones);
