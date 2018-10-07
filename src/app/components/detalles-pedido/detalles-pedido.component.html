@@ -1,152 +1,157 @@
 <div class="fixed-action-btn">
-    <a  class="btn-floating btn-large waves-effect waves-light">
-      <i  class="large material-icons">more_vert</i>
+    <a class="btn-floating btn-large waves-effect waves-light">
+        <i class="large material-icons">more_vert</i>
     </a>
     <ul>
-        <li *ngIf="isEdicion" ><a  (click)="borrarPedido()" class="btn-floating red"><i class="material-icons">delete</i></a></li>
-        <li><a  (click)="cancelarCreacion()" class="btn-floating yellow"><i class="material-icons">clear</i></a></li>
+        <li *ngIf="isEdicion"><a (click)="borrarPedido()" class="btn-floating red"><i class="material-icons">delete</i></a></li>
+        <li><a (click)="cancelarCreacion()" class="btn-floating yellow"><i class="material-icons">clear</i></a></li>
         <li><a (click)="crearPedido()" class="btn-floating green"><i class="material-icons">save</i></a></li>
-    </ul> 
+    </ul>
 </div>
 
- <h4>Crear Pedido</h4>
+<h4>Crear Pedido</h4>
 <hr>
 
 
 
 <form>
 
-  <div class="card-panel z-depth-2">
+    <div class="card-panel z-depth-2">
 
         <div class="row">
-                <div class="input-field col s12 m5">
-                    <input autocomplete="off" placeholder="Nombre" name="nombre" [(ngModel)]="nombre" type="text" class="validate">
-                    <label class="active" for="nombre">Nombre completo</label>
-                  </div>
-                 <div class="input-field col s6 m4">
-                    <input autocomplete="off" placeholder="Telefono" name="telefono" [(ngModel)]="telefono" type="text" class="validate">
-                    <label class="active" for="Telefono">Telefono</label>
-                 </div>
-                 <div class="input-field col s6 m3">
-                    <select id="medioPago" name="pago" [(ngModel)]="pago">
-                        <option value="" disabled selected>Medio De Pago</option>
-                        <option value="Contra Entrega">Contra Entrega</option>
-                        <option value="Bancolombia">Bancolombia</option>
-                        <option value="Efecty">Efecty</option>
-                        <option value="PayU">PayU</option>
-                        <option value="PayPal">PayPal</option>
-                        <option value="Efectivo">Efectivo</option>
-                      </select>
-                      <label>Medio de Pago</label>
-                 </div>   
+            <div class="input-field col s12 m5">
+                <input autocomplete="off" placeholder="Nombre" name="nombre" [(ngModel)]="nombre" type="text" class="validate">
+                <label class="active" for="nombre">Nombre completo</label>
             </div>
-            <div class="row">
-              <div class="input-field col s4 m3">
-                  <select id="redSocial" name="medio" [(ngModel)]="medio">
-                      <option value="" disabled selected>Medio De Venta</option>
-                      <option value="Facebook">Facebook</option>
-                      <option value="Instagram">Instagram</option>
-                      <option value="Whatsapp redes">Whatsapp Redes</option>
-                      <option value="Whatsapp Lily">Whatsapp Lily</option>
-                      <option value="Mercado Libre">Mercado Libre</option>
-                      <option value="Pagina Web">Pagina Web</option>
-                    </select>
-                    <label>Medio de Venta</label>
-               </div>
-               <div class="input-field col s8 m4">
-                  <input autocomplete="off" placeholder="Como aparece en redes sociales" name="observaciones" [(ngModel)]="observaciones" type="text" class="validate">
-                  <label class="active" for="ciudad">Observaciones</label>
-                </div>
-                
+            <div class="input-field col s6 m4">
+                <input autocomplete="off" placeholder="Telefono" name="telefono" [(ngModel)]="telefono" type="text"
+                    class="validate">
+                <label class="active" for="Telefono">Telefono</label>
             </div>
-            <div class="row">
-                <div class="input-field col s12 m4">
-                    <input placeholder="Ciudad" name="ciudad" [(ngModel)]="ciudad" type="text" class="validate">
-                    <label class="active" for="ciudad">Ciudad</label>
-                  </div>
-                  <div class="input-field col s12 m8">
-                      <input autocomplete="off" placeholder="Direccion" name="direccion" [(ngModel)]="direccion" type="text" class="validate">
-                      <label class="active" for="direccion">Dirección</label>
-                  </div>
+            <div class="input-field col s6 m3">
+                <select id="medioPago" name="pago" [(ngModel)]="pago">
+                    <option value="" disabled selected>Medio De Pago</option>
+                    <option value="Contra Entrega">Contra Entrega</option>
+                    <option value="Bancolombia">Bancolombia</option>
+                    <option value="Efecty">Efecty</option>
+                    <option value="PayU">PayU</option>
+                    <option value="PayPal">PayPal</option>
+                    <option value="Efectivo">Efectivo</option>
+                </select>
+                <label>Medio de Pago</label>
             </div>
-          
-            <div class="row">
-              <div *ngIf="(guia != '') || isEdicion " class="input-field col s6 m4">
-                  <input placeholder="guia" name="guia" [(ngModel)]="guia" type="text" class="validate">
-                  <label class="active" for="guia">Guia</label>
-                </div>
-                <div *ngIf="(factura != '') || isEdicion" class="input-field col s6 m4">
-                    <input autocomplete="off" placeholder="Factura" name="factura" [(ngModel)]="factura" type="text" class="validate">
-                    <label class="active" for="factura">Factura</label>
-                </div>
-          </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s4 m3">
+                <select id="redSocial" name="medio" [(ngModel)]="medio">
+                    <option value="" disabled selected>Medio De Venta</option>
+                    <option value="Facebook">Facebook</option>
+                    <option value="Instagram">Instagram</option>
+                    <option value="Whatsapp redes">Whatsapp Redes</option>
+                    <option value="Whatsapp Lily">Whatsapp Lily</option>
+                    <option value="Mercado Libre">Mercado Libre</option>
+                    <option value="Pagina Web">Pagina Web</option>
+                </select>
+                <label>Medio de Venta</label>
+            </div>
+            <div class="input-field col s8 m4">
+                <input autocomplete="off" placeholder="Como aparece en redes sociales" name="observaciones" [(ngModel)]="observaciones"
+                    type="text" class="validate">
+                <label class="active" for="ciudad">Observaciones</label>
+            </div>
 
-  </div>  
+        </div>
+        <div class="row">
+            <div class="input-field col s12 m4">
+                <input placeholder="Ciudad" name="ciudad" [(ngModel)]="ciudad" type="text" class="validate">
+                <label class="active" for="ciudad">Ciudad</label>
+            </div>
+            <div class="input-field col s12 m8">
+                <input autocomplete="off" placeholder="Direccion" name="direccion" [(ngModel)]="direccion" type="text"
+                    class="validate">
+                <label class="active" for="direccion">Dirección</label>
+            </div>
+        </div>
 
-  <div class="card-panel z-depth-2">
+        <div class="row">
+            <div *ngIf="(guia != '') || isEdicion " class="input-field col s6 m4">
+                <input placeholder="guia" name="guia" [(ngModel)]="guia" type="text" class="validate">
+                <label class="active" for="guia">Guia</label>
+            </div>
+            <div *ngIf="(factura != '') || isEdicion" class="input-field col s6 m4">
+                <input autocomplete="off" placeholder="Factura" name="factura" [(ngModel)]="factura" type="text" class="validate">
+                <label class="active" for="factura">Factura</label>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card-panel z-depth-2">
 
         <h5>Agraga las Prendas</h5>
 
         <div class="row">
-            <div class="input-field col s7 m4">
-                <i class="material-icons prefix">textsms</i>
-                <input autocomplete="off" #nombredeprenda name="x" [(ngModel)]="x" type="text" id="autocomplete-input" class="autocomplete">
+            <div class="input-field col s7 m5">
+                <!-- <i class="material-icons prefix">accessibility</i> -->
+                <input autocomplete="off" #nombredeprenda name="x" [(ngModel)]="x" type="text" id="autocomplete-input"
+                    class="autocomplete">
                 <label class="active" for="autocomplete-input">Prenda</label>
-              </div>
-              <div class="input-field col s5 m2">
-                  <select name="talla" [(ngModel)]="talla">
-                      <option value="" disabled selected>Talla</option>
-                      <option value="28">2XS</option>
-                      <option value="30">XS</option>
-                      <option value="32">S</option>
-                      <option value="34">M</option>
-                      <option value="36">L</option>
-                      <option value="38">XL</option>
-                      <option value="40">2XL</option>
-                      <option value="42">3XL</option>
-                      <option value="44">4XL</option>
-                      <option value="46">5XL</option>
-                      <option value="48">6XL</option>
-                      <option value="50">7XL</option>
-                    </select>
-                    <label>Talla</label>
-              </div>
-              <div class="input-field col s3 m2">
-                  <input name="color" [(ngModel)]="color"  type="text"  class="validate">
-                  <label class="active" for="first_name">Color</label>
-              </div>
-              <div class="input-field col s4 m2">
-                  <input name="valor" [(ngModel)]="valor"  type="text"  class="validate">
-                  <label class="active" for="first_name">valor</label>
-              </div>
-              <div class="input-field col s3 m1">
-                  <input id="cantidad" name="cantidad" placeholder="0" [(ngModel)]="cantidad"  type="text" class="validate">
-                  <label class="active" for="cantidad">cantidad</label>
-              </div>
-              <div class="col s2 m1">
-                  <a (click)="crearPrenda(nombredeprenda.value)" class="btn-floating btn-medium waves-effect waves-light green"><i class="material-icons">add</i></a>
-              </div>
+            </div>
+            <div class="input-field col s5 m2">
+                <select name="talla" [(ngModel)]="talla">
+                    <option value="" disabled selected>Talla</option>
+                    <option value="28">2XS</option>
+                    <option value="30">XS</option>
+                    <option value="32">S</option>
+                    <option value="34">M</option>
+                    <option value="36">L</option>
+                    <option value="38">XL</option>
+                    <option value="40">2XL</option>
+                    <option value="42">3XL</option>
+                    <option value="44">4XL</option>
+                    <option value="46">5XL</option>
+                    <option value="48">6XL</option>
+                    <option value="50">7XL</option>
+                </select>
+                <label>Talla</label>
+            </div>
+            <div class="input-field col s3 m2">
+                <input name="color" [(ngModel)]="color" type="text" class="validate">
+                <label class="active" for="first_name">Color</label>
+            </div>
+            <div class="input-field col s4 m2">
+                <input name="valor" [(ngModel)]="valor" type="text" class="validate">
+                <label class="active" for="first_name">valor</label>
+            </div>
+            <div class="input-field col s3 m1">
+                <input id="cantidad" name="cantidad" placeholder="0" [(ngModel)]="cantidad" type="number" class="validate">
+                <label class="active" for="cantidad">cantidad</label>
+            </div>
+        </div>
+        <div class="center-align">
+            <a (click)="crearPrenda(nombredeprenda.value)" class="btn-floating btn-medium waves-effect waves-light green"><i
+                    class="material-icons">add</i></a>
         </div>
 
-  </div>
+    </div>
 
 </form>
 
 <div class="card-panel z-depth-2" style="margin-bottom: 150px">
 
-        <ul class="collection">
-                <li *ngFor="let prenda of prendas; let i = index" class="collection-item avatar">
-                  <img [src]="prenda.imagen" alt="" class="circle">
-                  <span class="title">{{ prenda.nombre }} ({{ prenda.sku }})</span>
-                  <p> <strong>Color:</strong> {{ prenda.color }} <strong>Talla:</strong> {{ prenda.talla }} <br>
-                      <strong>Valor:</strong>{{ prenda.valor | currency:'COP':'symbol-narrow':'.0-0' }}   <strong>Cantidad:</strong> {{ prenda.cantidad }}
-                  </p>
-                  <a (click)="borrarPrenda(i)" style="cursor: pointer;" class="secondary-content"><i class="material-icons">delete</i></a>
-                </li>
-                <li class="collection-item">
-                  <strong>Valor Total:</strong> {{ valorTotal | currency:'COP':'symbol-narrow':'.0-0' }}  
-                </li>
-            </ul> 
+    <ul class="collection">
+        <li *ngFor="let prenda of prendas; let i = index" class="collection-item avatar">
+            <img [src]="prenda.imagen" alt="" class="circle">
+            <span class="title">{{ prenda.nombre }} ({{ prenda.sku }})</span>
+            <p> <strong>Color:</strong> {{ prenda.color }} <strong>Talla:</strong> {{ prenda.talla }} <br>
+                <strong>Valor:</strong>{{ prenda.valor | currency:'COP':'symbol-narrow':'.0-0' }} <strong>Cantidad:</strong>
+                {{ prenda.cantidad }}
+            </p>
+            <a (click)="borrarPrenda(i)" style="cursor: pointer;" class="secondary-content"><i class="material-icons">delete</i></a>
+        </li>
+        <li class="collection-item">
+            <strong>Valor Total:</strong> {{ valorTotal | currency:'COP':'symbol-narrow':'.0-0' }}
+        </li>
+    </ul>
 
 </div>
-
