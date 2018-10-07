@@ -44,7 +44,7 @@ export class HomeComponent implements OnInit,OnDestroy {
     
     this.datosMesesSub = this.estadisticas.getEstadisticasMeses(new Date()).subscribe((data)=>{
       this.datosMeses = data;
-      this.porcentaje = this.calcularPorcentaje(2);
+      this.porcentaje = this.calcularPorcentaje(this.indice);
       this.emoji = this.calcularEmogi(this.porcentaje);
     });  
     
