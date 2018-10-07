@@ -15,3 +15,8 @@
     text-align: center;
     margin-bottom: 15px;
 }
+
+.deshabilitado{
+    color: grey;
+    cursor: default !important;
+}

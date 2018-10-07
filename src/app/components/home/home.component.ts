@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { EstadistcasService } from '../../services/estadistcas.service';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, BehaviorSubject } from 'rxjs';
 import { PedidosService } from '../../services/pedidos.service';
-import { shareReplay } from 'rxjs/operators';
+import { shareReplay, switchMap } from 'rxjs/operators';
 
 
 
@@ -23,6 +23,10 @@ export class HomeComponent implements OnInit,OnDestroy {
 
   emoji:string = "";
 
+  indice:number = 2;
+
+  mes:BehaviorSubject<number> = new BehaviorSubject<number>(2);
+
   mesActual:string = '';
   porcentaje:number = 0;
 
@@ -31,9 +35,16 @@ export class HomeComponent implements OnInit,OnDestroy {
   
   constructor(private estadisticas:EstadistcasService, private ps:PedidosService) {
     
+    this.mes.subscribe(idx =>{
+      this.indice = idx;
+      if(this.datosMeses){
+        this.porcentaje = this.calcularPorcentaje(this.indice);
+      } 
+    });
+    
     this.datosMesesSub = this.estadisticas.getEstadisticasMeses(new Date()).subscribe((data)=>{
       this.datosMeses = data;
-      this.porcentaje = this.calcularPorcentaje();
+      this.porcentaje = this.calcularPorcentaje(2);
       this.emoji = this.calcularEmogi(this.porcentaje);
     });  
     
@@ -54,10 +65,10 @@ export class HomeComponent implements OnInit,OnDestroy {
     this.datosDiasSub.unsubscribe();
   }
 
-  calcularPorcentaje(){
-    let mes_actual = this.datosMeses.meses[this.datosMeses.meses.length - 1];
+  calcularPorcentaje(idx:number){
+    let mes_actual = this.datosMeses.meses[idx];
     this.mesActual = this.meses[mes_actual - 1];
-    let datos:{ventas:number, devoluciones:number} = this.datosMeses.datos[this.datosMeses.meses.length - 1];
+    let datos:{ventas:number, devoluciones:number} = this.datosMeses.datos[idx];
     if( (datos.ventas + datos.devoluciones) < 10 ){
       return null;
     }
@@ -79,6 +90,16 @@ export class HomeComponent implements OnInit,OnDestroy {
       } else if( porcent <= 90){
         return 'em---1'
       }
+  }
+
+  cambiarMes(op:string){
+    if(op == "+" && this.indice < 2 ){
+      this.indice++;
+      this.mes.next(this.indice);
+    } else if(op == "-" && this.indice > 0){
+      this.indice--;
+      this.mes.next(this.indice);
+    }
   }
 
 }
