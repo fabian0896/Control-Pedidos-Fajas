@@ -5,6 +5,7 @@ import { combineLatest, Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Pedido } from '../../models/pedido';
 import { PedidosService } from '../../services/pedidos.service';
+import { PermisosService } from '../../services/permisos.service';
 declare var $:any;
 
 @Component({
@@ -21,14 +22,16 @@ export class BusquedaComponent implements OnInit {
   observables:any[]
 
   pedidos:Pedido[];
-
+  permiso:Promise<any>;
   pedidoTemporal;
   guiaTemporal:string = "";
   nombreVendedorTemporal;
   totalPrendasTemporal;
   estadoPedidoTemporal
 
-  constructor(private db:AngularFirestore, private algolia:AgoliaService, private pedidoService:PedidosService ) {
+  constructor(private permisosServices:PermisosService ,private db:AngularFirestore, private algolia:AgoliaService, private pedidoService:PedidosService ) {
+
+    this.permiso = this.permisosServices.getPermisos();
 
     $(document).ready(function(){
       $('.modal').modal();

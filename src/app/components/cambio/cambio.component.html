@@ -157,9 +157,9 @@
         class="material-icons">import_export</i>Cambio<strong> ({{cambio.fechaCambio | date: 'dd/MM/yyyy'}})</strong></div>
     <div class="collapsible-body">
       <p><strong>Fecha del cambio:</strong>{{cambio.fechaCambio | date: 'dd/MM/yyyy'}}</p>
-      <p><strong>Fecha de despacho</strong>{{ cambio.fechaDespacho | date: 'dd/MM/yyyy' }}</p>
-      <p><strong>Guia</strong> {{ cambio.guia }} </p>
-      <p><strong>motivo:</strong> {{ cambio.motivo }} </p>
+      <p><strong>Fecha de despacho:</strong>{{ cambio.fechaDespacho == null ? ' No se ha despachado' : (cambio.fechaDespacho | date: 'dd/MM/yyyy') }}</p>
+      <p><strong>Guia:</strong> {{ cambio.guia == ''? 'Sin Guia' : cambio.guia }} </p>
+      <p><strong>Motivo:</strong> {{ cambio.motivo }} </p>
       <app-lista-prendas [isCambio]="true" [indice]="i" [pedido]="pedido" [modificable]="false"></app-lista-prendas>
     </div>
   </li>
