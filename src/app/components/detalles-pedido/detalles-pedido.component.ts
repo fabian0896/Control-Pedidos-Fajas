@@ -175,20 +175,31 @@ export class DetallesPedidoComponent implements OnInit, OnDestroy {
       return;
     }
 
- 
+    let existe:boolean = false;
     let temp: Prenda;
     for(let item of this.resultadosDB){
-      if(item.nombre.toLowerCase() == nombre_prenda.toLowerCase() ){
+      if(item.nombre.toLowerCase().trim() == nombre_prenda.toLowerCase().trim() ){
         temp = new Prenda(nombre_prenda,item.sku,item.imagen);
         temp.color = this.color;
         temp.talla = this.talla;
         temp.valor = this.valor;
         temp.cantidad = parseInt(this.cantidad);
+        existe = true;
         break;
       }
     }
-    this.prendas.push(temp);
-    //console.log(temp);
+    if(!existe){
+      temp = new Prenda(nombre_prenda,"none","");
+        temp.color = this.color;
+        temp.talla = this.talla;
+        temp.valor = this.valor;
+        temp.cantidad = parseInt(this.cantidad);
+    }
+
+
+   this.prendas.push(temp);
+    
+    
     
     this.calcularValorTotal();                  
 
