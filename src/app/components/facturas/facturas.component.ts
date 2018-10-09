@@ -43,6 +43,7 @@ export class FacturasComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(){
     this.pedidosSub.unsubscribe();
+    this.anularSub.unsubscribe();
   }
 
   abrirModal(pedido:Pedido){

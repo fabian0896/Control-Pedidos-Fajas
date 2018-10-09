@@ -35,10 +35,16 @@
         <div class="card-content">
           <div class="row">
             <div class="col s12 m8">
-              <span class="card-title"><strong>{{ pedido.nombre}} {{ pedido.estado == 5? '(No Imprimir)': '' }}</strong></span>
+              <span class="card-title"><strong>{{ pedido.nombre | titlecase}} {{ pedido.estado == 5? '(No Imprimir)': '' }}</strong></span>
             </div>
             <div class="col s12 m4">
               <span class="card-title" ><strong>Total:</strong> {{ pedido.valorTotal | currency:'COP':'symbol-narrow':'.0-0'}} </span>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <span><strong>Medio de pago: </strong> {{ pedido.medioPago }}</span>
             </div>
           </div>
           
