@@ -184,7 +184,9 @@ function CalcularTotal(pedido):number{
     const prendas:any[] = pedido.prendas;
     let total:number = 0;
     for(const prenda of prendas){
-        total += prenda.cantidad;
+        if(prenda.valor != 0){
+            total += prenda.cantidad;
+        } 
     }
     return total;
 }

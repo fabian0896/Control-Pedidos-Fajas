@@ -66,6 +66,10 @@ export class DetallesPedidoComponent implements OnInit, OnDestroy {
     });
 
     $(document).ready(function(){
+      $('.js-example-basic-single').select2({
+        placeholder: "Selecciona una prenda",
+        width: "resolve"
+      });
       $('select').formSelect();
       $('.fixed-action-btn').floatingActionButton();
     });
@@ -154,7 +158,7 @@ export class DetallesPedidoComponent implements OnInit, OnDestroy {
     }
     
     
-    this.router.navigate(['/pedidos']);
+    this.router.navigate(['/mispedidos']);
   }
 
 

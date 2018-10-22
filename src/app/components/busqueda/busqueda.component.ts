@@ -41,6 +41,7 @@ export class BusquedaComponent implements OnInit {
       return combineLatest(termino);
     })).subscribe((data:any) => {
       //console.log(data);
+      this.pedidos = [];
       this.pedidos = data;
     });
   

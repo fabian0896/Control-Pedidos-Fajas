@@ -37,6 +37,11 @@ export class CambioComponent implements OnInit, OnDestroy {
   permiso:Promise<number>;
   idx:number = 0;
 
+  isEditing:boolean = false;
+  temporal:Cambio;
+
+  datos = {};
+
   constructor(private permisoService:PermisosService ,private ps:PedidosService, private db:AngularFirestore, private router:Router, private activeRouter:ActivatedRoute) { 
 
     this.permiso = this.permisoService.getPermisos();
@@ -74,13 +79,12 @@ export class CambioComponent implements OnInit, OnDestroy {
     //--------------
     
     this.db.collection('prendas').valueChanges().pipe(take(1)).subscribe((prendas:any) =>{
-      let datos = {}
       this.referencias = prendas;
       for(let prenda of prendas){
-        datos[prenda.nombre] = prenda.imagen;
+        this.datos[prenda.nombre] = prenda.imagen;
       }
       $('input.autocomplete').autocomplete({
-        data: datos
+        data: this.datos
       });
     });
     
@@ -114,6 +118,25 @@ export class CambioComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+  }
+
+
+  goCambio(idx:number){
+    this.temporal = this.pedido.cambios[idx];
+    this.prendas = this.temporal.prendas;
+    this.formulario_2 = new FormGroup({
+      valor: new FormControl(this.temporal.valor),
+      motivo: new FormControl(this.temporal.motivo, Validators.required),
+      flete: new FormControl(this.temporal.cancelaFlete),
+    });
+    this.isEditing = true;
+    this.permitirCambio = true;
+    setTimeout(()=>{
+      $('select').formSelect();
+      $('input.autocomplete').autocomplete({
+        data: this.datos
+      });
+    }, 200);
   }
 
   calcularUltimaFechaDespacho(pedido:Pedido){
@@ -185,7 +208,13 @@ export class CambioComponent implements OnInit, OnDestroy {
   guardarCambio(){
     this.cambiarPagina(1);
     let valor = this.formulario_2.controls.valor.value;
-    let cambio:Cambio =  new Cambio(new Date().getTime(), this.prendas, this.formulario_2.controls.motivo.value);
+    let fecha;
+    if(this.isEditing){
+      fecha = this.temporal.fechaCambio;
+    } else{
+      fecha = new Date().getTime();
+    }
+    let cambio:Cambio =  new Cambio(fecha, this.prendas, this.formulario_2.controls.motivo.value);
     cambio.cancelaFlete = this.formulario_2.controls.flete.value;
     if(valor){
       cambio.valor = valor;
@@ -196,7 +225,14 @@ export class CambioComponent implements OnInit, OnDestroy {
     this.pedido.fecha = cambio.fechaCambio;
     this.pedido.completado = false;
     this.pedido.conGuia = false;
-    this.pedido.cambios.unshift(cambio);
+    if(this.isEditing){
+      for(let prenda of this.pedido.cambios[0].prendas){
+        prenda.estado = 0;
+      }
+      this.pedido.cambios[0] = cambio;
+    } else{
+      this.pedido.cambios.unshift(cambio);
+    }
     this.ps.editarPedido(this.pedido);
     this.formulario_2.reset();
   }
