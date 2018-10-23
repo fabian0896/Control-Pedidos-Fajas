@@ -174,7 +174,7 @@ export class DetallesPedidoComponent implements OnInit, OnDestroy {
 
   crearPrenda(nombre_prenda:string){
 
-    if(!(nombre_prenda && this.talla && this.color && this.valor && this.cantidad)){
+    if(!(nombre_prenda && this.talla && this.color && this.cantidad)){
       M.toast({html: 'Para agragar una prenda son necesarios todos los valores'});
       return;
     }
