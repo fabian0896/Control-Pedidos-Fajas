@@ -39,6 +39,7 @@ export class HomeComponent implements OnInit,OnDestroy {
       this.indice = idx;
       if(this.datosMeses){
         this.porcentaje = this.calcularPorcentaje(this.indice);
+        this.porcentaje = Math.floor(this.porcentaje);
       } 
     });
     
@@ -46,6 +47,7 @@ export class HomeComponent implements OnInit,OnDestroy {
       this.datosMeses = data;
       this.porcentaje = this.calcularPorcentaje(this.indice);
       this.emoji = this.calcularEmogi(this.porcentaje);
+      this.porcentaje = Math.floor(this.porcentaje);
     });  
     
     this.datosDiasSub = this.estadisticas.getEstadisticasSemana(new Date()).subscribe((data)=>{

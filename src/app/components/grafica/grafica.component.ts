@@ -9,6 +9,7 @@ export class GraficaComponent implements OnInit, OnChanges {
 
   @Input() tipo:string = 'bar';
   @Input() datos:Estadisticas;
+  @Input() step:number = null;
 
   public barChartLabels:string[] = [];
   public barChartLegend:boolean = true;
@@ -25,7 +26,7 @@ export class GraficaComponent implements OnInit, OnChanges {
       yAxes: [{
           ticks: {
               beginAtZero:true,
-              stepSize: 1
+              stepSize: this.step
           }
       }],
       
