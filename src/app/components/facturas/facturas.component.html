@@ -38,7 +38,9 @@
               <span class="card-title"><strong>{{ pedido.nombre | titlecase}} {{ pedido.estado == 5? '(No Imprimir)': '' }}</strong></span>
             </div>
             <div class="col s12 m4">
-              <span class="card-title" ><strong>Total:</strong> {{ pedido.valorTotal | currency:'COP':'symbol-narrow':'.0-0'}} </span>
+              <span class="card-title" ><strong>Total neto:</strong> {{ pedido.valorTotal | currency:'COP':'symbol-narrow':'.0-0'}} </span>
+              <span class="card-title" ><strong>Flete y comisión:</strong> {{ -20000 | currency:'COP':'symbol-narrow':'.0-0'}} </span>
+              <span style="color:green" class="card-title" ><strong>Venta neta:</strong> {{ pedido.valorTotal - 20000 | currency:'COP':'symbol-narrow':'.0-0'}} </span>
             </div>
           </div>
 
@@ -70,6 +72,7 @@
                   <td>{{ prenda.valor | currency:'COP':'symbol-narrow':'.0-0' }}</td>
                   <td>{{ (prenda.valor * prenda.cantidad) | currency:'COP':'symbol-narrow':'.0-0' }}</td>
                 </tr>
+               
                  
                 
               </tbody>
